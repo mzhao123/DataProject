@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+<title> test ui</title>
+<style>
+    body
+    {
+      padding-top:80px;
+      background-color: #DCDCDC;
+    }
+    .box
+    {
+      border: 2px solid black;
+      background-color: #FFFFF0;
+      margin-top: -2px;
+      padding-top: 1%;
+    }
+    .btn
+    {
+      border: 1px solid black;
+      margin-left: 2%;
+    }
+    label
+    {
+      font-weight: bold;
+      font-size: 20px;
+      margin-left: 2%;
+    }
+    input
+    {
+      margin-left: 2%;
+      width: 96%;
+    }
+    .loginBox
+    {
+      left: 0;
+      right: 0;
+      background-color: #3b7687;
+      border: 2px solid black;
+    }
+    .loginText
+    {
+      color: white;
+      padding: 0.5% 0.5% 0.5% 0.5%;
+    }
+</style>
+<script>
+function saveForm()
+  {
+
+    if(typeof(Storage) !== "undefined")
+    {
+      sessionStorage.UserName = document.getElementById("userName").value;
+      sessionStorage.FirstNationName = document.getElementById('fnName').value;
+      sessionStorage.ChiefName = document.getElementById('chiefName').value;
+      sessionStorage.ContactName = document.getElementById('contactName').value;
+      sessionStorage.ContactPhone = document.getElementById('contactPhone').value;
+      sessionStorage.ContactEmail = document.getElementById('contactEmail').value;
+    }
+
+  }
+</script>
+</head>
+<body>
+  <div class="container">
+
+    <div class = "col-sm-8 col-sm-offset-2 loginBox">
+      <h1 class = "loginText"><span class="fa fa-sign-in"></span> Sign Up </h1>
+    </div>
+  <div class="col-sm-8 col-sm-offset-2 box">
+
+    <form action="/signup" method="post">
+      <div class="form-group">
+          <label for "userName"><b>Username:</b> </label>
+          <input type = "text" class="form-control" id = "userName" name = "userName">
+      </div>
+      <div class="form-group">
+          <label>Password</label>
+          <input type="password" id = "password" class="form-control" name="password">
+
+      </div>
+      <div class="form-group">
+          <label>Re-enter password</label>
+          <input type="password" id ="confirm_password" class="form-control" name="confirm_password" required = "required" oninput = "check(this)">
+          <script language = 'javascript' type = 'text/javascript'>
+          function check(input)
+          {
+            console.log("saysomethingplease!");
+            if(input.value != document.getElementById('password').value)
+            {
+              input.setCustomValidity('Password Must Match');
+            }
+            else
+            {
+              input.setCustomValidity('');
+            }
+          }
+          </script>
+      </div>
+      <fieldset>
+        <br>
+        <label for "firstName">Your First Name: </label>
+        <input type = "text" id = "firstName" name = "firstName" placeholder = "John" class="form-control"/>
+        <br>
+        <label for "lastName">Your Last Name: </label>
+        <input type = "text" id = "lastName" name = "lastName" placeholder = "Smith" class="form-control"/>
+        <br>
+      </fieldset>
+      <div class="form-group">
+        <label for "contactEmail">Email: </label>
+        <input type = "email" id = "contactEmail" name = "contactEmail" placeholder = "contact@DanielZhao.com" class="form-control"/>
+      </div>
+
+      <button type="submit" onclick="saveForm()" class="btn btn-warning btn-lg">Next</button>
+      <br>
+      <br>
+      <p style = "margin-left: 2%;">Already have an account? <a href="/login">Login</a></p>
+      <p style = "margin-left: 2%;">Or go <a href="/">home</a>.</p>
+
+  </form>
+</body>
+</html>

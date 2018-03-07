@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+  <title>Data Grid </title>
+  <style>
+  #form
+  {
+    text-align: center;
+    border: 1px solid black;
+    width:auto;
+  }
+  th
+  {text-align: center}
+  </style>
+  <script>
+  function makeTable(rows, columns)
+  {
+    if(document.getElementById('form') != null)
+    {
+      var child = document.getElementById('form');
+      child.parentNode.removeChild(child);
+    }
+    //https://stackoverflow.com/questions/36358872/create-user-defined-table-in-html
+    var form = document.createElement('form');
+    form.style.cssText = 'text-align: center;';
+
+    for(var x = 0; x <= rows; x++)
+    {
+      var tr = document.createElement('div');
+
+      for(var y = 0; y <= columns; y ++)
+      {
+        var width = 80/ columns;
+        var td = document.createElement('input');
+        td.style.cssText = 'text-align:center;'
+        td.style.cssText = 'width: y'
+        if(y== 0 && x== 0)
+        {
+          td.placeholder= "";
+        }
+        else if(y == 0 && x >0)
+        {
+          td.placeholder = 'Category ' + (x);
+        }
+        else if( x == 0 && y > 0)
+        {
+          td.placeholder = 'Attribute ' + (y);
+        }
+        else
+        {
+          //28011
+
+        }
+        tr.appendChild(td);
+      }
+      form.appendChild(tr);
+    }
+    form.setAttribute("id", "form");
+    document.getElementById('table').appendChild(form);
+    var chooser  = document.getElementById('choose');
+    chooser.style.csstext
+  }
+  </script>
+</head>
+<body>
+
+  <div id = "table" style = "margin-bottom: 3%; text-align:center;">
+    <p></p>
+  </div>
+
+<div id = "choose" style = "text-align:center;">
+  <input id='rows'>
+  <input id='columns'>
+  <button id='makeTable'>Make Table</button>
+</div>
+  </form>
+  <script>
+  var button = document.getElementById('makeTable').addEventListener('click', function(){
+  var rows = document.getElementById('rows').value;
+  var columns = document.getElementById('columns').value;
+
+  makeTable(rows, columns);})
+  </script>
+</body>
+
+</html>

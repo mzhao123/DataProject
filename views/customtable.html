@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Editable Table</title>
+  <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+  <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+
+    <link rel="stylesheet" href="stylesheets/dynamictablestyle.css">
+
+
+
+
+</head>
+
+<body>
+
+  <div class="container">
+  <h1>HTML5 Editable Table</h1>
+  <p>Through the powers of <strong>contenteditable</strong> and some simple jQuery you can easily create a custom editable table. No need for a robust JavaScript library anymore these days.</p>
+
+  <ul>
+    <li>An editable table that exports a hash array. Dynamically compiles rows from headers</li>
+    <li>Simple / powerful features such as add row, remove row, move row up/down.</li>
+  </ul>
+
+  <div id="table" class="table-editable">
+  <button class="table-add-row btn-success" > Add Row</button>
+  <button class="table-add-column btn-success" > Add Column </button>
+  <button class="table-delete-column btn-danger" > Delete Column </button>
+    <br>
+    <table class="table">
+      <tr class = "first-TR" id = "firstTableRow">
+        <td style = "text-align: center;">New Category</th>
+        <td style = "text-align: center;">New Category</th>
+      </tr>
+
+      <!-- This is our clonable table line -->
+      <tr class="hide">
+        <td contenteditable="true" style = "text-align: center;">undefined</td>
+        <td class ="no-delete">
+          <span class="table-remove glyphicon glyphicon-remove"></span>
+        </td>
+        <td class = "no-delete">
+          <span class="table-up glyphicon glyphicon-arrow-up"></span>
+          <span class="table-down glyphicon glyphicon-arrow-down"></span>
+        </td>
+      </tr>
+      <th contenteditable="true" class = "hide" style = "text-align:center;">New Category </th>
+        <td contenteditable="true" class = "hide" style = "text-align:center;">New Category </td>
+    </table>
+  </div>
+
+  <button id="export-btn" class="btn btn-primary">Export Data</button>
+  <p id="export"></p>
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script src='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore.js'></script>
+  <script src = "javascriptsheet/dynamictable.js"></script>
+
+
+
+</body>
+
+</html>
