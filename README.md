@@ -17,7 +17,7 @@ The logic of this application is mainly done in Javascript and Java might be imp
 
 ## database
 
-**A database has not yet been yet up for this project**
+**A database has not yet been developed for this project**
 
 # Current stage of development
 ### Completed features:
@@ -26,4 +26,4 @@ The logic of this application is mainly done in Javascript and Java might be imp
 
 # Current features that users can implement
 ### dynamic table:
-![table]
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/delete.png)
