@@ -10,11 +10,11 @@ $('.table-add-row').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
 
   var rowCounter = $('#firstTableRow th').length;
-  for (var x = rowCounter-3; x > 0; x--)
+  for (var x = rowCounter-1; x > 0; x--)
   {
     console.log(x);
     //inserts new column into the cloned table row based on size in the right place
-    if(x == rowCounter-3)
+    if(x == rowCounter-1)
     {
       $clone.find('td').eq(0).before('<td style = "text-align: center;" contenteditable="true" ><b>Attribute 1 </b></td>');
     }
@@ -66,16 +66,18 @@ $('.table-delete-column').click(function(){
       var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
       var textRange; var j=0;
       tab = document.getElementById('myTable'); // id of table
-
       for(j = 0 ; j < tab.rows.length ; j++)
       {
         if(j != (tab.rows.length -1) && j!= 1)
         {
           tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+          //replacing the unwanted columns in the excel chart
+          tab_text = tab_text.replace(/<td class="no-delete"><span class="table-remove glyphicon glyphicon-remove" style="margin-left: 5%;"><\/span><\/td>/g,'');
+          tab_text = tab_text.replace(/<td class="no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style="margin-left: 5%;"><\/span><span class="table-down glyphicon glyphicon-arrow-down" style="margin-left: 5%;"><\/span><\/td>/g, '');
           //tab_text=tab_text+"</tr>";
         }
       }
-
+      console.log(tab_text);
       tab_text=tab_text+"</table>";
       tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
       tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
