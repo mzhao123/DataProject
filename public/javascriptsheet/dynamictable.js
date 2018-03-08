@@ -25,25 +25,25 @@ $('.table-add-row').click(function () {
   $TABLE.find('table').append($clone);
 });
 
-//adds column
+//Adds column to the table
 $('.table-add-column').click(function(){
-  //finds the td, removes the hide class
-var $clone = $TABLE.find('th.hide').clone(true).removeClass('hide');
+    //finds the td, removes the hide class
+    var $clone = $TABLE.find('th.hide').clone(true).removeClass('hide');
 
-//adds the cloned td as a column to the first row
-$($ACTUALTABLE.find('tr').eq(0).find('th').eq(0)).after($clone);
-console.log($clone);
+    //adds the cloned td as a column to the first row
+    $($ACTUALTABLE.find('tr').eq(0).find('th').eq(0)).after($clone);
+    console.log($clone); //debugging
 
-//goes through each row
-$ACTUALTABLE.find('tr').each(function(){
-var trow = $(this);
-// trow.index is greater than 2 because it skips the first tr and also a tr that is hidden
-if(trow.index() > 0)
-{
-  //inserts the new column
-  trow.find('td').eq(0).after('<td style = "text-align: center;" contenteditable="true" >undefined</td>');
-}
-})
+    //goes through each row
+    $ACTUALTABLE.find('tr').each(function(){
+      var trow = $(this);
+      // trow.index is greater than 2 because it skips the first tr and also a tr that is hidden
+      if(trow.index() > 0)
+      {
+        //inserts the new column
+        trow.find('td').eq(0).after('<td style = "text-align: center;" contenteditable="true" >undefined</td>');
+      }
+    })
 })
 
 
@@ -61,6 +61,7 @@ $('.table-delete-column').click(function(){
    }
   })
   })
+  //export the table to excel!
   function fnExcelReport()
   {
       var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
@@ -71,7 +72,7 @@ $('.table-delete-column').click(function(){
         if(j != (tab.rows.length -1) && j!= 1)
         {
           tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-          //replacing the unwanted columns in the excel chart
+          //replacing the unwanted columns in the excel chart kind of a hack where I just go into the tab_text string and remove the columns that contain the glyphicons so the excel sheet doesn't contain it
           tab_text = tab_text.replace(/<td class="no-delete"><span class="table-remove glyphicon glyphicon-remove" style="margin-left: 5%;"><\/span><\/td>/g,'');
           tab_text = tab_text.replace(/<td class="no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style="margin-left: 5%;"><\/span><span class="table-down glyphicon glyphicon-arrow-down" style="margin-left: 5%;"><\/span><\/td>/g, '');
           //tab_text=tab_text+"</tr>";
