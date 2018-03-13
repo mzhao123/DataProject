@@ -1,0 +1,40 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Income Reporting (MOHLTC)</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body
+        {
+          padding-top:110px;
+          background-color: 	#DCDCDC;
+        }
+        .jumbotron
+        {
+          background-color: #FFFFF0 !important;
+          border: 2px solid black;
+        }
+        .btn
+        {
+          border: 1px solid black;
+          font-size: calc(9px + (16-10) * (100vw - 300px)/ (2400-300));
+        }
+    </style>
+</head>
+<body>
+
+    <div class="jumbotron text-center col-sm-10 col-sm-offset-1">
+        <h1><span class="fa fa-cloud"></span> IBM Cloud Demo </h1>
+        <h2 style = "font-size: calc(13px + (20-10) * (100vw - 300px)/ (2400-300))"> First Nations' Online Funding Reports </h2>
+
+        <p style = " font-size: calc(11px + (18-10) * (100vw - 300px)/ (2400-300));">Login or Register to make or view your income report:</p>
+
+        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Existing Users: Login</a>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> New Users: Signup</a>
+
+
+</div>
+</body>
+</html>
