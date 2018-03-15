@@ -13,15 +13,16 @@ module.exports = function(app, passport)
   {
     res.render('dynamictable.ejs');
   })
+
   app.get("/custom", function(req,res)
   {
     res.render('customtable.ejs');
   })
-  //not actual profile yet
-  app.get("/profile", function(req,res)
+  app.post("/custom", function (req, res)
   {
-    res.render('Profile.ejs');
+    
   })
+  //not actual profile yet
 
 //passport stuff
   app.get("/login", function(req,res)
@@ -78,9 +79,10 @@ module.exports = function(app, passport)
         );
       });
       res.render('tobevalidated.ejs');
-
-
     });
+    // =====================================
+    // Validation ==========================
+    // =====================================
     app.get('/validate-now', function(req, res)
     {
       console.log(req.query.tok);
@@ -88,6 +90,41 @@ module.exports = function(app, passport)
       var tokenAuthen = require('../models/tokenauth');
       tokenAuthen.checkToken(res, req);
     });
+    // =====================================
+    // LOGIN =============================
+    // =====================================
+    app.get('/login', function(req, res)
+    {
+      console.log("app get '/login'");
+      res.render('login.ejs', {message: req.flash('loginMessage')});
+    });
+
+    app.post('/login', passport.authenticate('local-login',
+    {
+      successRedirect : '/profile',
+      failureRedirect : '/login',
+      failureFlash : true //allow flash messages
+    }));
+
+    // =====================================
+    // PROFILE =============================
+    // =====================================
+    app.get('/profile', isLoggedIn, function(req, res)
+    {
+      //Check user
+      console.log(req.user);
+      var query = require('../models/query.js');
+      console.log("/GET PROFILE");
+      res.render('Profile.ejs',
+      {
+        user: req.user
+      });
+    });
+
+
+    // ============================
+    //helper funtions =============
+    // ============================
     function isLoggedIn(req, res, next)
     {
 

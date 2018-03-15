@@ -23,6 +23,7 @@
   <button class="table-add-row btn-success" > Add Row</button>
   <button class="table-add-column btn-success" > Add Column </button>
   <button class="table-delete-column btn-danger" > Delete Column </button>
+  <form method = "POST">
     <br>
     <table class="table" id ="myTable">
       <thead>
@@ -38,11 +39,12 @@
         <td contenteditable="true" style = "text-align: center;">undefined</td>
         <td class ="no-delete"><span class="table-remove glyphicon glyphicon-remove" style = "margin-left: 5%;"></span></td>
         <td class = "no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style = "margin-left: 5%;"></span><span class="table-down glyphicon glyphicon-arrow-down" style = "margin-left: 5%;"></span></td>
+
       </tr>
     </tbody>
-      <th contenteditable="true" class = "hide" style = "text-align:center;">New Category </th>
-        <td contenteditable="true" class = "hide" style = "text-align:center;">New Category </td>
     </table>
+    <button id = "submit" type = "submit"> Submit </button>
+  </form>
   </div>
 
   <button id="export-btn" class="btn btn-primary">Export Data</button>

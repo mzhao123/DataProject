@@ -3,12 +3,10 @@ var $TABLE = $('#table');
 var $BTN = $('#export-btn');
 var $EXPORT = $('#export');
 var $ACTUALTABLE = $('.table');
-
 //adds row
 $('.table-add-row').click(function () {
   //clones the tr and removes the "hide" class from it so it is visible
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-
   var rowCounter = $('#firstTableRow th').length;
   for (var x = rowCounter-1; x > 0; x--)
   {
@@ -16,7 +14,8 @@ $('.table-add-row').click(function () {
     //inserts new column into the cloned table row based on size in the right place
     if(x == rowCounter-1)
     {
-      $clone.find('td').eq(0).before('<td style = "text-align: center;" contenteditable="true" ><b>Attribute 1 </b></td>');
+      $clone.find('td').eq(0).before('<td style = "text-align: center;" contenteditable="true" name = "Attribute' +  String(attributeCounter) + '"  ><b> New Attribute</b></td>');
+      attributeCounter = attributeCounter +1;
     }
     else
     $clone.find('td').eq(0).after('<td style = "text-align: center;" contenteditable="true" >undefined</td>');
@@ -31,7 +30,7 @@ $('.table-add-column').click(function(){
     var $clone = $TABLE.find('th.hide').clone(true).removeClass('hide');
 
     //adds the cloned td as a column to the first row
-    $($ACTUALTABLE.find('tr').eq(0).find('th').eq(0)).after($clone);
+    $($ACTUALTABLE.find('tr').eq(0).find('th').eq(categoryCounter-1)).after('<th contenteditable="true" style = "text-align:center;" name  = "category' + String(categoryCounter) + '">New Category </th>');
     console.log($clone); //debugging
 
     //goes through each row
@@ -41,7 +40,7 @@ $('.table-add-column').click(function(){
       if(trow.index() > 0)
       {
         //inserts the new column
-        trow.find('td').eq(0).after('<td style = "text-align: center;" contenteditable="true" >undefined</td>');
+        trow.find('td').eq(categoryCounter-1).after('<td style = "text-align: center;" contenteditable="true" name = "' +String(trow.rowIndex) + String(categoryCounter) + '">undefined</td>');
       }
     })
 })
@@ -58,6 +57,7 @@ $('.table-delete-column').click(function(){
      trow.find('td').eq(1).remove();
      if(!trow.find('th').eq(1).hasClass('no-delete'))
      trow.find('th').eq(1).remove();
+     categoryCounter --;
    }
   })
   })
@@ -104,6 +104,7 @@ $('.table-delete-column').click(function(){
 
 $('.table-remove').click(function () {
   $(this).parents('tr').detach();
+
 });
 
 

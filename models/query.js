@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+var pool = mysql.createPool({
   host: 'localhost',
   user: 'Daniel',
   password: 'gogogo123',
@@ -8,20 +8,24 @@ var connection = mysql.createConnection({
 module.exports = {
   newQuery: function(query, callback)
   {
-      connection.query(query, function(error, data)
+      pool.getConnection(function(err, connection) {
+      if (err) return callback(err);
+      pool.query(query, function(error, data)
       {
       if(error)
       {
-       console.log("Query failure:" + query);
-       throw error;
+        connection.release();
+        console.error(error);
+        callback(error, data);
       }
       else
       {
           console.log("Query success: " + query);
+          connection.release();
           callback(error, data);
       }
       })
-
+      });
 
   }
 }

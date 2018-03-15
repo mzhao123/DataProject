@@ -42,17 +42,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-var connection = mysql.createConnection({
+var pool = mysql.createPool({
   host: 'localhost',
   user: 'Daniel',
   password: 'gogogo123',
   database: 'dataproject'
 })
-connection.connect(function(err)
-{
-  if(err) throw err;
-  console.log("Connected!");
-  connection.end();
+pool.getConnection(function(err, connection) {
+  if (err) throw err;
+  //Nothing goes here yet
 });
 index(app, passport);
 module.exports = app;
