@@ -14,14 +14,21 @@ module.exports = function(app, passport)
     res.render('dynamictable.ejs');
   })
 
-  app.get("/custom", function(req,res)
+  app.get("/custom", isLoggedIn, function(req,res)
   {
+    var dataConv = require('../models/dataconversion.js');
     res.render('customtable.ejs');
-  })
+  });
   app.post("/custom", function (req, res)
   {
-    
-  })
+    var dataConv = require('../models/dataconversion.js');
+    dataConv.makeTable(req.body, req.user, function()
+    {
+      console.log("complete!");
+    })
+    dataConv.greeting();
+
+  });
   //not actual profile yet
 
 //passport stuff

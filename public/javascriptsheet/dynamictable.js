@@ -3,22 +3,42 @@ var $TABLE = $('#table');
 var $BTN = $('#export-btn');
 var $EXPORT = $('#export');
 var $ACTUALTABLE = $('.table');
+var categoryCounter = 2;
 //adds row
 $('.table-add-row').click(function () {
+  var rows = document.getElementById('myTable').rows.length
   //clones the tr and removes the "hide" class from it so it is visible
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-  var rowCounter = $('#firstTableRow th').length;
+  var rowCounter = $('#firstTableRow td').length;
+  var col = 1;
+  var curRow = 2;
   for (var x = rowCounter-1; x > 0; x--)
-  {
-    console.log(x);
+  { console.log(rowCounter);
+    if( x == rowCounter -1)
+    {
+      col = 1;
+      curRow =2;
+    }
     //inserts new column into the cloned table row based on size in the right place
     if(x == rowCounter-1)
     {
-      $clone.find('td').eq(0).before('<td style = "text-align: center;" contenteditable="true" name = "Attribute' +  String(attributeCounter) + '"  ><b> New Attribute</b></td>');
-      attributeCounter = attributeCounter +1;
+      $clone.find('td').eq(0).before('<td class = "first-col" type = "text" style = "text-align: center;" ><input type = "text" style = "text-align: center; font-weight: bold;" placeholder = " New Attribute" name = "attribute' + x +'" ></td>');
     }
     else
-    $clone.find('td').eq(0).after('<td style = "text-align: center;" contenteditable="true" >undefined</td>');
+    {
+      if(col == 1)
+      {
+        $clone.find('td').eq(col).after('<td style = "text-align: center;"> <input type = "text" name = "'+ String(rows-1) +  String(curRow) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
+        col ++;
+        curRow ++;
+      }
+      else
+      {
+        $clone.find('td').eq(col).after('<td style = "text-align: center;"> <input type = "text" name = "'+ String(rows-1) +  String(curRow) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
+        col ++;
+        curRow++;
+      }
+    }
   }
   //adds the table row
   $TABLE.find('table').append($clone);
@@ -27,39 +47,54 @@ $('.table-add-row').click(function () {
 //Adds column to the table
 $('.table-add-column').click(function(){
     //finds the td, removes the hide class
-    var $clone = $TABLE.find('th.hide').clone(true).removeClass('hide');
+    var $clone = $TABLE.find('td.hide').clone(true).removeClass('hide');
+    var colLength = document.getElementById('firstTableRow').cells.length;
 
     //adds the cloned td as a column to the first row
-    $($ACTUALTABLE.find('tr').eq(0).find('th').eq(categoryCounter-1)).after('<th contenteditable="true" style = "text-align:center;" name  = "category' + String(categoryCounter) + '">New Category </th>');
-    console.log($clone); //debugging
+    $($ACTUALTABLE.find('tr').eq(0).find('td').eq(colLength-1)).after('<td id = "firstCol" style = "text-align: center;"> <input type = "text" name ="category'+categoryCounter+'" placeholder = "Category Name" style = "text-align:center; font-weight: bold; "></input></td>');
+    categoryCounter ++;
 
     //goes through each row
     $ACTUALTABLE.find('tr').each(function(){
-      var trow = $(this);
+      var currentRow = $(this);
+      var trow = document.getElementById('myTable').rows[0]
       // trow.index is greater than 2 because it skips the first tr and also a tr that is hidden
-      if(trow.index() > 0)
+      if(currentRow.index() >0)
       {
-        //inserts the new column
-        trow.find('td').eq(categoryCounter-1).after('<td style = "text-align: center;" contenteditable="true" name = "' +String(trow.rowIndex) + String(categoryCounter) + '">undefined</td>');
+        //inserts the new column for the current row
+
+        currentRow.find('td').eq(trow.cells.length-2).after('<td id = "firstCol" style = "text-align: center;"> <input type = "text" name = "'+ String(currentRow.index()) + String(trow.cells.length-1) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
       }
     })
 })
 
 
 $('.table-delete-column').click(function(){
+  var counter =0;
  $ACTUALTABLE.find('tr').each(function(){
    var trow = $(this);
    //deletes from all table rows that do not have the 'hidden' class
-   if(!trow.hasClass("hide") )
+  var rowLength = document.getElementById('myTable').rows[0].cells.length;
+
+   if(!trow.hasClass("hide") && (rowLength > 1 && counter == 0 ))
    {
-     //another condition has to be met in order for something to be deleted
-     if(!trow.find('td').eq(1).hasClass('no-delete'))
-     trow.find('td').eq(1).remove();
-     if(!trow.find('th').eq(1).hasClass('no-delete'))
-     trow.find('th').eq(1).remove();
-     categoryCounter --;
+     if(!trow.find('td').eq(rowLength-1).hasClass('no-delete'))
+     {
+       trow.find('td').eq(rowLength-1).remove();
+       categoryCounter --;
+     }
    }
+   if(counter > 0  && !trow.hasClass("hide"))
+   {
+
+     if(!trow.find('td').eq(rowLength).hasClass('no-delete'))
+     {
+       trow.find('td').eq(rowLength).remove();
+     }
+   }
+     counter ++;
   })
+
   })
   //export the table to excel!
   function fnExcelReport()
@@ -78,7 +113,7 @@ $('.table-delete-column').click(function(){
           //tab_text=tab_text+"</tr>";
         }
       }
-      console.log(tab_text);
+
       tab_text=tab_text+"</table>";
       tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
       tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table

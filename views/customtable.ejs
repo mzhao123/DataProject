@@ -10,7 +10,43 @@
     <link rel="stylesheet" href="stylesheets/dynamictablestyle.css">
 
 
+<script>
+    function updateRow()
+    {
+      var numberOfRows = document.getElementById('myTable').rows.length;
 
+      var k = document.getElementsByClassName('first-col')
+      for(var i = 0; i < k.length; i ++)
+      if(k[i] != null)
+      {
+        k[i].querySelector("input").setAttribute("name", "Attribute" + String(i+1));
+      }
+    }
+    function updateAllRows()
+    {
+      console.log("hi");
+      var ths = document.getElementById('myTable');
+      var allRows = ths.getElementsByTagName('tr')
+      for( var i = 2; i < allRows.length; i++)
+      {
+
+        var currentColumn = 1;
+        var thb = allRows[i].getElementsByTagName('td');
+        console.log(thb);
+        for( var j = 1; j < thb.length-2; j++)
+        {
+
+          var k =  thb[j].querySelector("input");
+          console.log(k);
+          if(k != null)
+          {
+            k.setAttribute("name", String(i-1) + String(currentColumn));
+          }
+          currentColumn ++;
+        }
+      }
+    }
+</script>
 
 </head>
 
@@ -20,30 +56,30 @@
   <h1 style = "padding-top: 3%;"> Editable Table Form</h1>
   <div id="table" class="table-editable">
     <button id="btnExport" onclick="fnExcelReport();"> EXPORT </button>
-  <button class="table-add-row btn-success" > Add Row</button>
+  <button class="table-add-row btn-success" onclick = 'updateRow(), updateAllRows()' > Add Row</button>
   <button class="table-add-column btn-success" > Add Column </button>
   <button class="table-delete-column btn-danger" > Delete Column </button>
-  <form method = "POST">
+  <form action = "/custom" method = "POST">
     <br>
     <table class="table" id ="myTable">
       <thead>
       <tr class = "first-TR" id = "firstTableRow" contenteditable="true">
-        <th style = "text-align: center;" contenteditable = "false">Attribute</th>
-        <th style = "text-align: center;">New Category</th>
+        <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute<b></td>
+        <td style = "text-align: center;" class = "no-delete"> <input type = "text" name = "category1" placeholder = "Category Name" style = "text-align:center; font-weight: bold; "></input></td>
 
       </tr>
     </thead>
       <!-- This is our clonable table line -->
       <tbody>
       <tr class="hide">
-        <td contenteditable="true" style = "text-align: center;">undefined</td>
-        <td class ="no-delete"><span class="table-remove glyphicon glyphicon-remove" style = "margin-left: 5%;"></span></td>
-        <td class = "no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style = "margin-left: 5%;"></span><span class="table-down glyphicon glyphicon-arrow-down" style = "margin-left: 5%;"></span></td>
+        <td style = "text-align: center;" class = "no-delete"> <input type = "text" name = "category" placeholder = "category1" style = "text-align:center"></input></td>
+        <td  class ="no-delete" onclick = "updateAllRows()"><span class="table-remove glyphicon glyphicon-remove" style = "margin-left: 5%;" ></span></td>
+        <td  class = "no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style = "margin-left: 5%;"></span><span class="table-down glyphicon glyphicon-arrow-down" style = "margin-left: 5%;"></span></td>
 
       </tr>
     </tbody>
     </table>
-    <button id = "submit" type = "submit"> Submit </button>
+    <input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
   </form>
   </div>
 
