@@ -2,6 +2,7 @@
 <html lang="en" >
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>HTML5 Editable Table</title>
   <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
@@ -50,29 +51,41 @@
 
 </head>
 
-<body>
+<body >
 
-  <div class="container">
-  <h1 style = "padding-top: 3%;"> Editable Table Form</h1>
-  <div id="table" class="table-editable">
+  <div class="container" style = "text-align:center">
+  <h1 style = "padding-top: 3%;" > Editable Table Form</h1>
+</div>
+<br>
+  <div id="table" class="table-editable container" style = "text-align:center">
     <button id="btnExport" onclick="fnExcelReport();"> EXPORT </button>
   <button class="table-add-row btn-success" onclick = 'updateRow(), updateAllRows()' > Add Row</button>
   <button class="table-add-column btn-success" > Add Column </button>
-  <button class="table-delete-column btn-danger" > Delete Column </button>
+  <button class="table-delete-column btn-danger" > Delete Column </button>  &nbsp;
+  <br>
   <form action = "/custom" method = "POST">
+    <br>
+    <div>
+    <label for "groupNumber" style = "float: left; width: 350px;"> Group Number:</label>
+    <input type = "number" name = "groupNumber" placeholder="1" style = "text-align:center; width: 144px; " ><br>
+    <label for "groupDescription" style  ="float: left; width: 350px;"><b> Group Title</b>:</label>
+      <input type = "text" name = "groupTitle" placeholder="" style = "text-align:center; width: 144px; " >
+      </div
+    <br>
+    <br>
     <br>
     <table class="table" id ="myTable">
       <thead>
-      <tr class = "first-TR" id = "firstTableRow" contenteditable="true">
+      <tr class = "first-TR" id = "firstTableRow" >
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute<b></td>
-        <td style = "text-align: center;" class = "no-delete"> <input type = "text" name = "category1" placeholder = "Category Name" style = "text-align:center; font-weight: bold; "></input></td>
+        <td style = "text-align: center;" class = "no-delete"><input type = "text" name = "category1" placeholder = "Category Name" style = "text-align:center; font-weight: bold;"></input></td>
 
       </tr>
     </thead>
       <!-- This is our clonable table line -->
       <tbody>
       <tr class="hide">
-        <td style = "text-align: center;" class = "no-delete"> <input type = "text" name = "category" placeholder = "category1" style = "text-align:center"></input></td>
+        <td style = "text-align: center;" class = "no-delete"> <input type = "text" name = "category" placeholder = "undefined" style = "text-align:center"></input></td>
         <td  class ="no-delete" onclick = "updateAllRows()"><span class="table-remove glyphicon glyphicon-remove" style = "margin-left: 5%;" ></span></td>
         <td  class = "no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style = "margin-left: 5%;"></span><span class="table-down glyphicon glyphicon-arrow-down" style = "margin-left: 5%;"></span></td>
 
@@ -80,12 +93,15 @@
     </tbody>
     </table>
     <input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
+    <br>
+    <br>
   </form>
-  </div>
-
-  <button id="export-btn" class="btn btn-primary">Export Data</button>
+  <a href = "/upload" style = "font-size: 18px;">upload excel </a>
   <p id="export"></p>
-</div>
+
+  </div>
+  <br>
+
 
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>

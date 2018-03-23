@@ -109,9 +109,9 @@ function(req, userName, password, done)
             var queryUser;
             var hashedPassword = loginquery.generateHash(password);
 
-            queryUser = "INSERT INTO user (userName, password, createDate, validated, email, phonenumber) "
+            queryUser = "INSERT INTO user (userName, password, createDate, validated, email, phonenumber, admin, GroupNumber) "
                   + " VALUES ('" + userName + "', '" + hashedPassword + "', NOW(), 0,  + '" + req.body.contactEmail
-                  + "', '" + req.body.contactPhone + "');";
+                  + "', '" + req.body.contactPhone + "', 0 , '"+ req.body.groupNumber + "');";
 
             query.newQuery(queryUser, function(err, data)
             {

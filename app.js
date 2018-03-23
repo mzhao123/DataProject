@@ -19,6 +19,9 @@ var logger = require('morgan'); //Note logger = morgan~!
 var session = require('express-session');
 
 var flash = require('connect-flash');
+var formidable = require('formidable');
+
+var fs = require('fs');
 
 require('./config/passport')(passport); // pass passport for configuration
 app.set('views', __dirname + '/views');

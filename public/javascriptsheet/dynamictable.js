@@ -22,12 +22,13 @@ $('.table-add-row').click(function () {
     //inserts new column into the cloned table row based on size in the right place
     if(x == rowCounter-1)
     {
-      $clone.find('td').eq(0).before('<td class = "first-col" type = "text" style = "text-align: center;" ><input type = "text" style = "text-align: center; font-weight: bold;" placeholder = " New Attribute" name = "attribute' + x +'" ></td>');
+      $clone.find('td').eq(0).before('<td class = "first-col" type = "text" style = "text-align: center;" ><input type = "text" style = "text-align: center; font-weight: bold;" placeholder = " New Attribute" name = "Attribute' + String(rows-1) +'" ></td>');
     }
     else
     {
       if(col == 1)
       {
+        $clone.find('td').eq(col).find('input').attr('name', String(rows-1) + String(curRow-1))
         $clone.find('td').eq(col).after('<td style = "text-align: center;"> <input type = "text" name = "'+ String(rows-1) +  String(curRow) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
         col ++;
         curRow ++;
@@ -63,7 +64,7 @@ $('.table-add-column').click(function(){
       {
         //inserts the new column for the current row
 
-        currentRow.find('td').eq(trow.cells.length-2).after('<td id = "firstCol" style = "text-align: center;"> <input type = "text" name = "'+ String(currentRow.index()) + String(trow.cells.length-1) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
+        currentRow.find('td').eq(trow.cells.length-2).after('<td id = "firstCol" style = "text-align: center;"> <input type = "text" name = "'+ String(currentRow.index()) + String(trow.cells.length-1) +'"  placeholder = "undefined" style = "text-align:center"> </input></td>');
       }
     })
 })
@@ -102,22 +103,33 @@ $('.table-delete-column').click(function(){
       var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
       var textRange; var j=0;
       tab = document.getElementById('myTable'); // id of table
+      var ths = tab.rows[j].getElementsByTagName('td');
+      console.log(ths[0]);
+      tab_text = tab_text + "<td> <b> Attribute </b> </td>"  ;
       for(j = 0 ; j < tab.rows.length ; j++)
       {
-        if(j != (tab.rows.length -1) && j!= 1)
-        {
-          tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-          //replacing the unwanted columns in the excel chart kind of a hack where I just go into the tab_text string and remove the columns that contain the glyphicons so the excel sheet doesn't contain it
-          tab_text = tab_text.replace(/<td class="no-delete"><span class="table-remove glyphicon glyphicon-remove" style="margin-left: 5%;"><\/span><\/td>/g,'');
-          tab_text = tab_text.replace(/<td class="no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style="margin-left: 5%;"><\/span><span class="table-down glyphicon glyphicon-arrow-down" style="margin-left: 5%;"><\/span><\/td>/g, '');
-          //tab_text=tab_text+"</tr>";
-        }
-      }
 
+          if(j != 1)
+          {//array of all the input tags --- an unpleasant hack, I know
+          var inputs = tab.rows[j].getElementsByTagName('input');
+
+          for(var i = 0; i < inputs.length; i++)
+          {
+            //adding to the tab_text while inserting the <td> tags with the array of all the input tags
+            tab_text = tab_text + "<td>" + inputs[i].value + "</td>" ;
+          }
+          tab_text=tab_text+"</tr>";
+          }
+      }
+      //replacing the unwanted columns in the excel chart. kind of a hack where I just go into the tab_text string and remove the columns that contain the glyphicons so the excel sheet doesn't contain it
+      tab_text = tab_text.replace(/<td class="no-delete"><span class="table-remove glyphicon glyphicon-remove" style="margin-left: 5%;"><\/span><\/td>/g,'');
+      tab_text = tab_text.replace(/<td class="no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style="margin-left: 5%;"><\/span><span class="table-down glyphicon glyphicon-arrow-down" style="margin-left: 5%;"><\/span><\/td>/g, '');
+      //tab_text=tab_text+"</tr>";
       tab_text=tab_text+"</table>";
+        console.log(tab_text);
       tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
       tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-      tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
 
       var ua = window.navigator.userAgent;
       var msie = ua.indexOf("MSIE ");
