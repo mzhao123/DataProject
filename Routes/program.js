@@ -121,15 +121,43 @@ module.exports = function(app, passport)
     // =====================================
     app.get('/profile', isLoggedIn, function(req, res)
     {
+      console.log("/GET PROFILE");
       //Check user
       console.log(req.user);
       var query = require('../models/query.js');
-      console.log("/GET PROFILE");
-      res.render('Profile.ejs',
+      var displayTables = require('../models/formRetriever.js');
+      displayTables.getFormIndex(req.user, function(dataArray)
       {
-        user: req.user
+        res.render('Profile.ejs',
+        {
+          user: req.user,
+          data: dataArray
+        });
       });
     });
+    // ======================================
+    // FILL FORM ============================
+    // ======================================
+    app.get('/fillForm', isLoggedIn, function(req, res)
+    {
+      var retriever = require('../models/formRetriever.js');
+      console.log(req.user);
+      retriever.displayForm(req.user, req.query, function(categoryArray, attributeArray)
+      {
+        console.log(attributeArray);
+        console.log("Hi!");
+        console.log(categoryArray);
+        res.render('form.ejs',
+        {
+          category: categoryArray,
+          attribute: attributeArray
+        });
+      });
+    });
+    app.post('/fillForm', isLoggedIn, function(req, res)
+    {
+      
+    })
 
     app.get('/upload', isLoggedIn, function(req, res){
       res.sendFile(path.join(__dirname, '../views/fileUpload.html'));

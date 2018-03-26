@@ -1,7 +1,7 @@
 module. exports = {
 synchIt: function(iterations, process, exit)
 {
-  console.log("is this function being called?");
+
   var index = 0,
   done = false,
   shouldExit = false;
@@ -18,7 +18,7 @@ synchIt: function(iterations, process, exit)
       }
       if(index < iterations)
       {
-        console.log("index");
+
         index ++;
         process(loop);
       }
@@ -43,7 +43,7 @@ synchIt: function(iterations, process, exit)
 },
 synchIt1: function(iterations, process, exit)
 {
-  console.log("is this function being called?");
+
   var index = 0,
   done = false,
   shouldExit = false;

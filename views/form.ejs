@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+</head>
+<body style = " background-color: 	#DCDCDC">
+<div class="container">
+  <form action = "/custom" method = "POST">
+    <table class="table" id ="myTable">
+        <tr>
+        <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute<b></td>
+          <% for (var i = 0; i < category.length; i++) { %>
+            <td id = "firstCol" style = "text-align: center; font-weight: bold;" > <%= category[i].Description %></td>
+              <% } %>
+            </tr>
+              <br>
+      <% for (var i = 0; i < attribute.length; i++) { %>
+        <tr>
+          <td id = "firstCol" style = "text-align: center;"> <%= attribute[i].Description %> </td>
+          <% for(var j = 0; j < category.length; j ++ ) { %>
+            <td style = "text-align: center;"><input type = "text" style = "text-align:center;"></td>
+          <% } %>
+        </tr>
+        <% } %>
+    </table>
+
+</form>
+</div>
+
+</body>
+</html>
