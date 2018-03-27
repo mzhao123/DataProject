@@ -107,7 +107,7 @@
               <div style = "margin-left: 4.25%; margin-bottom: 3%;">
                 <% for (var i = 0; i < data.length; i++) { %>
                   <!-- formId = datatable.Id -->
-                  <a href = "fillForm?formId=<%= data[i].Id%>&formGroup=<%= data[i].GroupNumber%>"class="btn btn-default reportData"><span class="fa fa-user"></span> Form Name: <%= data[i].Title %> </a>
+                  <a href = "fillForm?formId=<%= data[i].Id%>&formGroupNumber=<%= data[i].GroupNumber%>"class="btn btn-default reportData"><span class="fa fa-user"></span> Form Name: <%= data[i].Title %> </a>
                   <br>
                   <% } %>
               </div>

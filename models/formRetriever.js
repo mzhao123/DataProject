@@ -53,13 +53,22 @@ module.exports =
   },
   displayForm: function(reqUser, reqQuery, callback)
   {
-    query.newQuery("SELECT * FROM categories WHERE datatableid =" + reqQuery.formId + ";", function(err, data)
+    if(reqUser.GroupNumber == reqQuery.formGroupNumber)
     {
-      query.newQuery("SELECT * FROM attributes WHERE datatableid =" + reqQuery.formId + ";", function(err, data1)
+      query.newQuery("SELECT * FROM categories WHERE datatableid =" + reqQuery.formId + " ORDER BY ID ;", function(err, data)
       {
-        // data --> categories data1 --> attributes
-        callback(data, data1);
-      })
-    })
+        query.newQuery("SELECT * FROM attributes WHERE datatableid =" + reqQuery.formId + " ORDER BY ID;", function(err, data1)
+        {
+          // data --> categories data1 --> attributes
+          callback(data, data1);
+        })
+      });
+    }
+    else
+    {
+        var data = [];
+        var data1 = [];
+        callback( data, data1);
+    }
   }
 }

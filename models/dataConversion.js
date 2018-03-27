@@ -57,24 +57,42 @@ module.exports =
         });
     })
   },
-  processData: function(reqBody, reqUser)
+  processData: function(reqBody, reqUser, categoryArray, attributeArray, callback)
   {
-    syncloop.synchIt(attributeId.length, function(loop)
+    syncloop.synchIt(attributeArray.length, function(loop)
     {
-      syncloop.synchIt1(categoryId.length, function(loop1)
+      syncloop.synchIt1(categoryArray.length, function(loop1)
       {
         var index = String(loop.iteration()+1) + String(loop1.iteration()+1);
         console.log(index);
-        query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES('" + reqBody[index] + "'," + categoryId[loop1.iteration()] + "," + attributeId[loop.iteration()] + "," + reqUser.ID + ");",
+        query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES('" + reqBody[index] + "'," + categoryArray[loop1.iteration()].ID + "," + attributeArray[loop.iteration()].ID + "," + reqUser.ID + ");",
         function(err,data)
         {
             loop1.next();
+            if(loop.iteration()+1 == attributeArray.length && loop.iteration()+1 == categoryArray.length)
+            {
+              callback();
+            }
         });
       },function()
         {
             loop.next();
+
         })
 
-    })
+    });
+  },
+  submitForm: function(reqBody, reqUser, reqQuery, arrayOne, arrayTwo, callback)
+  {
+    var rowIndex = 1;
+    var colIndex = 1;
+    var currentIndex = String(rowIndex) + String(colIndex);
+    async.whilst(
+      function(){return(reqBody[currentIndex] != null)},
+      function(cb)
+      {
+        query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES ('" + + "')")
+      }
+    )
   }
 }

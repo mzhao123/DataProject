@@ -4,11 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+  <link rel="stylesheet" href="stylesheets/formStyling.css">
 </head>
-<body style = " background-color: 	#DCDCDC">
-<div class="container">
-  <form action = "/custom" method = "POST">
-    <table class="table" id ="myTable">
+<body style = "background-color: 	#DCDCDC">
+<div style = "background-color: #FFFFF0; margin-top: 2%;" class = "container" id = "topDiv">
+    <header class = "header" > <%= title[0].Title %> Form </header>
+    <br>
+    <br>
+</div>
+<br>
+<div class= "container" style = "background-color: #FFFFF0;" id = "formDiv">
+
+  <form  method = "POST" id = "form">
+    <table class = "table" id ="myTable" style = "border: none;">
         <tr>
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute<b></td>
           <% for (var i = 0; i < category.length; i++) { %>
@@ -20,13 +28,14 @@
         <tr>
           <td id = "firstCol" style = "text-align: center;"> <%= attribute[i].Description %> </td>
           <% for(var j = 0; j < category.length; j ++ ) { %>
-            <td style = "text-align: center;"><input type = "text" style = "text-align:center;"></td>
+            <td style = "text-align: center;"><input name = "<%= String(i+1) + String(j+1)%>" type = "text" style = "text-align:center;"></td>
           <% } %>
         </tr>
         <% } %>
     </table>
-
+<input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
 </form>
+<br>
 </div>
 
 </body>

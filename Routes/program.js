@@ -23,12 +23,14 @@ module.exports = function(app, passport)
     res.render('customtable.ejs');
   });
   app.post("/custom", function (req, res)
-  { console.log(req.body);
+  {
+    console.log(req.body);
     var dataConv = require('../models/dataconversion.js');
     if(req.user.admin == 1 || req.user.admin ==0)
     dataConv.makeData(req.body, req.user, function(attributeId, categoryId)
     {
       console.log("made the table!")
+      res.redirect('/profile')
     });
 
   });
@@ -140,23 +142,38 @@ module.exports = function(app, passport)
     // ======================================
     app.get('/fillForm', isLoggedIn, function(req, res)
     {
+      var query = require ('../models/query.js');
       var retriever = require('../models/formRetriever.js');
       console.log(req.user);
       retriever.displayForm(req.user, req.query, function(categoryArray, attributeArray)
       {
-        console.log(attributeArray);
-        console.log("Hi!");
-        console.log(categoryArray);
-        res.render('form.ejs',
+        query.newQuery("SELECT Title FROM datatable WHERE Id= " + req.query.formId, function(error, formTitle)
         {
-          category: categoryArray,
-          attribute: attributeArray
+          console.log(formTitle);
+
+          res.render('form.ejs',
+          {
+            title: formTitle,
+            category: categoryArray,
+            attribute: attributeArray
+          });
         });
       });
     });
     app.post('/fillForm', isLoggedIn, function(req, res)
     {
-      
+      var convert = require ('../models/dataconversion.js');
+      var retriever = require('../models/formRetriever.js');
+      console.log(req.user);
+      retriever.displayForm(req.user, req.query, function(categoryArray1, attributeArray1)
+      {
+        convert.processData(req.body, req.user, categoryArray1, attributeArray1, function()
+        {
+          console.log("all done baby!");
+          res.redirect('/profile')
+        })
+
+      });
     })
 
     app.get('/upload', isLoggedIn, function(req, res){
