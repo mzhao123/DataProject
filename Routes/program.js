@@ -177,7 +177,7 @@ module.exports = function(app, passport)
     })
 
     app.get('/upload', isLoggedIn, function(req, res){
-      res.sendFile(path.join(__dirname, '../views/fileUpload.html'));
+      res.sendFile(path.join(__dirname, '../views/excelToHtml.html'));
     });
     app.post('/upload', function(req, res){
 
