@@ -33,7 +33,7 @@
 <table id = "newTable" class="table" >
 <tr class = "hide"></tr>
 </table>
-
+<input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
 </form>
 </div>
 <script>
@@ -71,7 +71,18 @@ var $TABLE = $('#newTable');
           for(var j = 0; j < numCols; j++)
           {
             console.log($TABLE.find('tr.hide').clone(true).removeClass('hide'));
-            $clone.append('<td> <input style = "text-align:center;" value =' + document.getElementById('sjs-' + currentLetter + String(j+1)).innerHTML + '> </td>')
+            if(i == 0)
+            {
+              $clone.append('<td><b> <input name ="' + String(i) + String(j)+  '"style = "text-align:center;" value =' + document.getElementById('sjs-' + currentLetter + String(j+1)).innerHTML + '></b> </td>');
+            }
+            else if(j == 0 )
+            {
+              $clone.append('<td><b> <input name =' + String(i) + String(j)+  ' style = "text-align:center;" value =' + document.getElementById('sjs-' + currentLetter + String(j+1)).innerHTML + '></b> </td>');
+            }
+            else {
+              $clone.append('<td> <input name =' + String(i) + String(j)+  ' style = "text-align:center;" value =' + document.getElementById('sjs-' + currentLetter + String(j+1)).innerHTML + '> </td>');
+            }
+
           }
           $('#newTable').append($clone);
         }

@@ -30,7 +30,7 @@ module.exports = function(app, passport)
     dataConv.makeData(req.body, req.user, function(attributeId, categoryId)
     {
       console.log("made the table!")
-      res.redirect('/profile')
+      return  res.redirect('/profile');
     });
 
   });

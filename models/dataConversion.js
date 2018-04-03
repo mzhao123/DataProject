@@ -7,6 +7,7 @@ var categoryId = [];
 module.exports =
 {
   attributeId, categoryId,
+  // allows admin to create new forms
   makeData: function(reqBody, reqUser, callback)
   {
     var categoryNum = 1;
@@ -57,6 +58,9 @@ module.exports =
         });
     })
   },
+  //processes data in the form that user fills out and sends info to database
+  //takes in 2 array parameters
+  //used in the app.post(/fillForm) page in program.js
   processData: function(reqBody, reqUser, categoryArray, attributeArray, callback)
   {
     syncloop.synchIt(attributeArray.length, function(loop)
@@ -69,8 +73,10 @@ module.exports =
         function(err,data)
         {
             loop1.next();
-            if(loop.iteration()+1 == attributeArray.length && loop.iteration()+1 == categoryArray.length)
+            if(index == String(attributeArray.length) + String(categoryArray.length))
             {
+              console.log(loop.iteration()+1);
+              console.log(loop1.iteration()+1);
               callback();
             }
         });
@@ -91,8 +97,12 @@ module.exports =
       function(){return(reqBody[currentIndex] != null)},
       function(cb)
       {
-        query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES ('" + + "')")
+        query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES ('" +reqBody[currentIndex] + "', )")
       }
     )
+  },
+  processExcel: function(reqBody, reqUser, callback)
+  {
+
   }
 }
