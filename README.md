@@ -16,8 +16,8 @@ The logic of this application is mainly done in Javascript and Java might be imp
 
 
 ## database
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/database.png)
 
-**A database has not yet been developed for this project**
 
 # Current stage of development
 ### Completed features:
@@ -25,5 +25,5 @@ The logic of this application is mainly done in Javascript and Java might be imp
 - Multiple tables including a dynamic table that can export to fnExcelReport
 
 # Current features that users can implement
-### dynamic table:
-![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/delete.png)
+### dynamic table creation (admin only):
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/EditableForm.png)

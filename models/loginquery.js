@@ -13,7 +13,12 @@ module.exports =
     console.log("hashing your password");
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   },
-
+  generateResetHash: function(password, callback)
+{
+  console.log("hash function is called");
+  var resetPass = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  callback(resetPass);
+},
   //compares the plaintext password with the hashed password
   validPassword: function(email, password, data)
   {

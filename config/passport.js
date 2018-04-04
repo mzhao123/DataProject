@@ -100,7 +100,7 @@ function(req, userName, password, done)
         query.newQuery("SELECT Email FROM user u WHERE u.Email = '" + req.body.contactEmail + "'; ", function (error, data1)
         {
           if (error) return done(error);
-          if(data1.length > 121)
+          if(data1.length > 0)
           {
             return done(null, false, req.flash('signupMessage1', 'That email is already in use'));
           }

@@ -116,8 +116,9 @@
 
         <!-- LOCAL INFORMATION -->
         <br>
-<a class = "btn btn-success" href="/custom" style = "margin-left: 10%;">Create Table</a>
-
+        <% if(user.admin==1){%>
+          <a class = "btn btn-success" href="/custom" style = "margin-left: 10%;">Create Table</a>
+          <% } %>
 
 </body>
 </html>

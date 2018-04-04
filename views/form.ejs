@@ -24,34 +24,36 @@
         <tr>
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute/Category<b></td>
           <% for (var i = 0; i < category.length; i++) { %>
-            <td style = "text-align: center; font-weight: bold;" id = "<%= "0" + String(i+1) %>"><%=category[i].Description%></td>
+            <td style = "text-align: center; font-weight: bold;" ><b> <input id = "<%= "0" + String(i+1) %>" style = "text-align:center; font-weight: bold;" value = "<%=category[i].Description%>" readonly></b></td>
               <% } %>
             </tr>
               <br>
       <% for (var i = 0; i < attribute.length; i++) { %>
         <tr>
-          <td style = "text-align: center;" id = "<%=String(i+1)+ "0" %>"><%=attribute[i].Description%></td>
+          <td style = "text-align: center;" ><b> <input id = "<%=String(i+1)+ "0" %>" style = "text-align:center; font-weight: bold;" value = "<%=attribute[i].Description%>" readonly> </b></td>
           <% for(var j = 0; j < category.length; j ++ ) { %>
-            <td style = "text-align: center;"><input name = "<%= String(i+1) + String(j+1)%>" type = "text" style = "text-align:center;"></td>
+            <td style = "text-align: center;"><input name = "<%= String(i+1) + String(j+1)%>" id = "<%= String(i+1) + String(j+1)%>" type = "text" style = "text-align:center;"></td>
           <% } %>
         </tr>
         <% } %>
     </table>
 <input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
 </form>
-<br>
+<button id="btnExport" onclick="fnExcelReport();" style = "margin-top: 2%; margin-bottom: 2%;"> EXPORT </button>
 </div>
-<div class= "container" style = "background-color: #FFFFF0;" id = "formDiv">
-  <div id="wrapper" style = "text-align: center">
-  <input type = "file" id = "input-excel"/>
+<div class= "container" style = "background-color: #FFFFF0; text-align: center;" id = "formDiv">
+  <div id="wrapper" >
+  Upload an excel file: <input type = "file" id = "input-excel"/>
   <br>
   <p>Please make sure you select the right excel file and make sure you name your excel sheet "sheet1"</p>
 </div>
 <table id = "newTable" class="table" >
 <tr class = "hide"></tr>
 </div>
+<div class="alert hide" id = "alert">
+</div>
 <p class = "hide" id = "message1" style = "color: red"> Sorry, but the size of the excel file you uploaded does not match the size of the table above </p>
-<button id = "editTable" class = "hide" style = "margin-top: 3%">Click here to edit/submit table </button>
+<button id = "editTable" class = "hide" style = "margin-top: 3%">Click here to transfer the table into the form</button>
 
 </table>
 <script>
@@ -68,6 +70,21 @@ var $TABLE = $('#newTable');
                         console.log(htmlstr);
                         $('#wrapper')[0].innerHTML += htmlstr;
                         $('#editTable').removeClass('hide');
+                        var table = document.getElementById('oldTable');
+                        var td = table.getElementsByTagName('td');
+                        var maxWidth = 0;
+                        for(var i = 0; i < td.length; i++)
+                        {
+                            if(td[i].offsetWidth > maxWidth)
+                            {
+                              maxWidth = td[i].offsetWidth;
+                            }
+                        }
+                        for(var i = 0; i < td.length; i ++)
+                        {
+                          console.log(maxWidth);
+                          td[i].setAttribute('style', 'width:' + maxWidth + "px");
+                        }
                 }
         });
         $('#editTable').click(function()
@@ -81,31 +98,30 @@ var $TABLE = $('#newTable');
             // the size of the table matches, now we check the actual contents
             for( var i = 0; i < document.getElementById('oldTable').rows[0].cells.length-1; i ++ )
             {
-              if(document.getElementById("0" + String(i+1)).innerHTML == document.getElementById("sjs-" + currentLetter + String(1)).innerHTML )
+              if(document.getElementById("0" + String(i+1)).value == document.getElementById("sjs-" + currentLetter + String(1)).innerHTML )
               {
                 console.log("matched!");
                 currentLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
               }
               else
               {
-                console.log(document.getElementById("0" + String(i+1)).innerHTML);
-                console.log(document.getElementById("sjs-E1").innerHTML);
-                console.log("--------");
+                document.getElementById('alert').innerHTML += "<p style = 'color: red'> Tables do not match at: <b> " + document.getElementById("0" + String(i+1)).value  + " </b>&nbsp;to<b> " +  document.getElementById("sjs-" + currentLetter + String(1)).innerHTML + " </b> </p>";
+                document.getElementById('alert').classList.remove("hide");
                   match = false;
+                currentLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
               }
             }
             for( var j = 0; j < document.getElementById('oldTable').rows.length-1; j++)
             {
               currentLetter = "A";
-              if(document.getElementById(String(j+1) + "0").innerHTML == document.getElementById("sjs-" + currentLetter + String(j+2)).innerHTML)
+              if(document.getElementById(String(j+1) + "0").value == document.getElementById("sjs-" + currentLetter + String(j+2)).innerHTML)
               {
                 console.log("matched!!!")
               }
               else
               {
-                  console.log(document.getElementById(String(j+1) + "0").innerHTML);
-                  console.log(document.getElementById("sjs-" + currentLetter + String(j+2)).innerHTML);
-                  console.log("-----");
+                  document.getElementById('alert').innerHTML += "<p style = 'color: red'>Error: Tables do not match at: <b> " + document.getElementById(String(j+1) + "0").value  + "</b>&nbsp;to<b> " +  document.getElementById("sjs-" + currentLetter + String(j+2)).innerHTML + "</b> </p>"
+                  document.getElementById('alert').classList.remove("hide");
                   match = false;
               }
             }
@@ -118,8 +134,69 @@ var $TABLE = $('#newTable');
           if(match == true)
           {
             //bottom form starts at b2 top form starts at 11
+            for(var i = 1; i < document.getElementById('myTable').rows[0].cells.length; i ++ )
+            {
+              currentLetter = "B";
+              for( var j = 1; j< document.getElementById('myTable').rows.length; j ++ )
+              {
+                console.log("sjs-" + currentLetter + String(j+1).innerHTML);
+                console.log(document.getElementById(String(i) + String(j)).innerHTML);
+                document.getElementById(String(i) + String(j)).value = document.getElementById("sjs-" + currentLetter + String(i+1)).innerHTML;
+                currentLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
+              }
+
+            }
           }
         });
+        function fnExcelReport()
+        {
+            var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+            var textRange; var j=0;
+            tab = document.getElementById('myTable'); // id of table
+            var ths = tab.rows[j].getElementsByTagName('td');
+            console.log(ths[0]);
+            tab_text = tab_text + "<td> <b> Attribute/category </b> </td>"  ;
+            for(j = 0 ; j < tab.rows.length ; j++)
+            {
+
+                if(j != 1)
+                {//array of all the input tags --- an unpleasant hack, I know
+                var inputs = tab.rows[j].getElementsByTagName('input');
+
+                for(var i = 0; i < inputs.length; i++)
+                {
+                  //adding to the tab_text while inserting the <td> tags with the array of all the input tags
+                  tab_text = tab_text + "<td>" + inputs[i].value + "</td>" ;
+                }
+                tab_text=tab_text+"</tr>";
+                }
+            }
+            //replacing the unwanted columns in the excel chart. kind of a hack where I just go into the tab_text string and remove the columns that contain the glyphicons so the excel sheet doesn't contain it
+            tab_text = tab_text.replace(/<td class="no-delete"><span class="table-remove glyphicon glyphicon-remove" style="margin-left: 5%;"><\/span><\/td>/g,'');
+            tab_text = tab_text.replace(/<td class="no-delete"><span class="table-up glyphicon glyphicon-arrow-up" style="margin-left: 5%;"><\/span><span class="table-down glyphicon glyphicon-arrow-down" style="margin-left: 5%;"><\/span><\/td>/g, '');
+            //tab_text=tab_text+"</tr>";
+            tab_text=tab_text+"</table>";
+              console.log(tab_text);
+            tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+            tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+
+
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+            {
+                txtArea1.document.open("txt/html","replace");
+                txtArea1.document.write(tab_text);
+                txtArea1.document.close();
+                txtArea1.focus();
+                sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+            }
+            else                 //other browser not tested on IE 11
+                sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+            return (sa);
+        }
         </script>
 </body>
 </html>
