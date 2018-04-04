@@ -63,22 +63,43 @@ module.exports =
   //used in the app.post(/fillForm) page in program.js
   processData: function(reqBody, reqUser, categoryArray, attributeArray, callback)
   {
+
     syncloop.synchIt(attributeArray.length, function(loop)
     {
       syncloop.synchIt1(categoryArray.length, function(loop1)
       {
         var index = String(loop.iteration()+1) + String(loop1.iteration()+1);
         console.log(index);
-        query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES('" + reqBody[index] + "'," + categoryArray[loop1.iteration()].ID + "," + attributeArray[loop.iteration()].ID + "," + reqUser.ID + ");",
-        function(err,data)
+        query.newQuery("SELECT * FROM datavalues WHERE CategoryID = " + categoryArray[loop1.iteration()].ID + " AND AttributeID = " + attributeArray[loop.iteration()].ID + " AND userID =" + reqUser.ID, function(err, array)
         {
-            loop1.next();
-            if(index == String(attributeArray.length) + String(categoryArray.length))
+          if(array.length >0)
+          {
+            //update
+            query.newQuery("UPDATE datavalues SET Value ='" + reqBody[index] + "' WHERE CategoryID =" + categoryArray[loop1.iteration()].ID + " AND AttributeID =" + attributeArray[loop.iteration()].ID + " AND userID = " + reqUser.ID, function(err, data)
             {
-              console.log(loop.iteration()+1);
-              console.log(loop1.iteration()+1);
-              callback();
-            }
+              loop1.next();
+              if(index == String(attributeArray.length) + String(categoryArray.length))
+              {
+                console.log(loop.iteration()+1);
+                console.log(loop1.iteration()+1);
+                callback();
+              }
+            })
+          }
+          else
+          {
+            query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID) VALUES('" + reqBody[index] + "'," + categoryArray[loop1.iteration()].ID + "," + attributeArray[loop.iteration()].ID + "," + reqUser.ID + ");",
+            function(err,data)
+            {
+                loop1.next();
+                if(index == String(attributeArray.length) + String(categoryArray.length))
+                {
+                  console.log(loop.iteration()+1);
+                  console.log(loop1.iteration()+1);
+                  callback();
+                }
+            });
+          }
         });
       },function()
         {

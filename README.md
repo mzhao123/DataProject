@@ -10,20 +10,34 @@ This project is currently being developed on a local host, but eventually we wou
 The logic of this application is mainly done in Javascript and Java might be implemented later on. Tools used:
 - Server-side logic: *Node.JS*
 - Framework: *ExpressJS*
-- User authentication: *NONE YET*
-- Front-end templating engine: *Mustache*
+- User authentication: PassportJS
+- Front-end templating engine: EJS
 - Front-end CSS: *Bootstrap*
 
 
 ## database
 ![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/database.png)
 
-
+## Overview of tables
+- user: Contains user's information entered in the sign-up page. GroupNumber tells us what group of forms the user can fill out.
+- token: User validation is done here.
+- datavalues: When a user submits a form, the data is stored in this table .
+- attributes: Table that stores attributes in forms. datatableid tells us what form the attribute belongs to.
+- categories: Table that stores categories in forms. datatableid tells us what form the category belongs to.
+- datatable: Represents a form with a title and a group number that tells us what group of users can fill the form
 # Current stage of development
 ### Completed features:
-- Signup page (cannot sign up yet)
-- Multiple tables including a dynamic table that can export to fnExcelReport
+- Signup page
+- Password reset
+- Form generation
+- Export forms to excel
+- Import excel files and convert it to a form
+- Form submission to a database
 
 # Current features that users can implement
+
+### Sign up
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/Signup.png)
+
 ### dynamic table creation (admin only):
 ![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/EditableForm.png)
