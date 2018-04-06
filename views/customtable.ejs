@@ -9,7 +9,21 @@
   <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
 
     <link rel="stylesheet" href="stylesheets/dynamictablestyle.css">
-
+<style>
+.table
+{
+  margin-left: auto;
+  margin-right: auto;
+}
+.table tbody
+{
+  overflow-x: auto; white-space: nowrap;  vertical-align: top;
+}
+.table thead
+{
+ overflow-x: auto; white-space: nowrap;vertical-align: top;
+}
+</style>
 
 <script>
     function updateRow()
@@ -51,13 +65,13 @@
 
 </head>
 
-<body >
+<body style = " background-color: 	#DCDCDC">
 
   <div class="container" style = "text-align:center">
   <h1 style = "padding-top: 3%;" > Editable Table Form</h1>
 </div>
 <br>
-  <div id="table" class="table-editable container" style = "text-align:center">
+  <div id="table" class="table-editable container" style = "text-align:center; background-color:#FFFFF0; padding-top: 2%; overflow-x: auto;">
     <button id="btnExport" onclick="fnExcelReport();"> EXPORT </button>
   <button class="table-add-row btn-success" onclick = 'updateRow(), updateAllRows()' > Add Row</button>
   <button class="table-add-column btn-success" > Add Column </button>
@@ -67,23 +81,27 @@
     <br>
     <div>
     <label for "groupNumber" style = "float: left; width: 350px;"> Group Number:</label>
-    <input type = "number" name = "groupNumber" placeholder="1" style = "text-align:center; width: 144px; " ><br>
+    <input type = "number" name = "groupNumber" placeholder="1" style = "text-align:center; width: 144px; "  required><br>
     <label for "groupDescription" style  ="float: left; width: 350px;"><b> Group Title</b>:</label>
-      <input type = "text" name = "groupTitle" placeholder="" style = "text-align:center; width: 144px; " >
-      </div
+      <input type = "text" name = "groupTitle" placeholder="" style = "text-align:center; width: 144px; " required>
+    </div>
+      <% if (messages != "undefined") { %>
+      <% var message = "Duplicate Title!"%>
+      <div class="alert alert-danger"><%= message %></div>
+      <% } %>
     <br>
     <br>
     <br>
-    <table class="table" id ="myTable">
+    <table class="table" id ="myTable" >
       <thead>
       <tr class = "first-TR" id = "firstTableRow" >
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>DATATABLE ID:<b></td>
-        <td style = "text-align: center;" class = "no-delete"><input type = "text" name = "category1" placeholder = "Category Name" style = "text-align:center; font-weight: bold;"></input></td>
+        <td style = "text-align: center;" class = "no-delete"><input required type = "text" name = "category1" placeholder = "Category Name" style = "text-align:center; font-weight: bold;"></input></td>
 
       </tr>
     </thead>
       <!-- This is our clonable table line -->
-      <tbody>
+      <tbody style = 'white-space: nowrap; '>
       <tr class="hide">
         <td style = "text-align: center;" class = "no-delete"> <input type = "text" name = "category" placeholder = "undefined" style = "text-align:center"></input></td>
         <td  class ="no-delete" onclick = "updateAllRows()"><span class="table-remove glyphicon glyphicon-remove" style = "margin-left: 5%;" ></span></td>

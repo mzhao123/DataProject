@@ -11,13 +11,14 @@
 </head>
 
 <body style = "background-color: 	#DCDCDC">
-<div style = "background-color: #FFFFF0; margin-top: 2%;" class = "container" id = "topDiv">
-    <header class = "header" > <%= title[0].Title %> Form </header>
+  <a href="/profile" class="btn btn-default" style = "font-size: calc(9px + (16-9) * (100vw - 400px)/ (1600-450)); margin-left:19.5%; margin-top: 2%; margin-bottom:1%;"><span class="fa fa-reply "></span> &nbsp; Profile </a>
+<div style = "background-color: #FFFFF0; text-align:center;" class = "container" id = "topDiv">
+    <header class = "header" style = "display: inline-block; margin-left: 8.5%;"> <%= title[0].Title %> Form </header>
     <br>
     <br>
 </div>
 <br>
-<div class= "container" style = "background-color: #FFFFF0;" id = "formDiv">
+<div class= "container" style = "background-color: #FFFFF0; overflow-x: auto; " id = "formDiv">
 
   <form  method = "POST" id = "form">
     <table class = "table" id ="myTable" style = "border: none;">

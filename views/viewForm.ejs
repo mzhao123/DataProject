@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>Your Form</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+      .table
+      {
+        table-layout:fixed;
+        width: 100% !important;
+        margin-top: 1.5%;
+        margin-bottom: 7.5%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      td
+      {
+        text-align: center;
+      }
+      .header
+      {
+        font-weight: bold;
+        font-size: 32px;
+      }
+    </style>
+</head>
+<body style = " background-color: 	#DCDCDC">
+  <div class="container">
+    <a href="/profile" class="btn btn-default" style = " font-size: calc(9px + (16-9) * (100vw - 400px)/ (1600-450)); display: inline-block; margin-top: 2%; margin-bottom:1%;"><span class="fa fa-reply "></span> Back to Profile </a>
+    <div class= "top col-sm-12 well" style= "padding: 1.25% 0.15% 0.65% 1.2%; background-color:#FFFFF0; text-align:center; overflow-x: auto; " >
+      <header class = "header" style = "text-align:center; display: inline-block;"> Form Name: <%=title %></header>
+    <form method = "POST" style = "margin-left: auto; margin-right: auto;">
+      <table  class = "table">
+        <tr>
+          <td> <input style = "text-align: center; font-weight: bold;" value = "Attribute/Category" readonly >  </td>
+          <td> <input readonly style = "text-align: center; font-weight: bold;" value = "<%= data[0].categoryDesc%>"> </td>
+          <% var aID = data[0].attributeID %>
+          <% for( var i = 1; i < data.length; i ++) { %>
+              <% if (data[i].attributeID == aID && (data[i].categoryID > data[i-1].categoryID) ) { %>
+                <td><input  readonly style = "text-align: center; font-weight: bold;" value = <%= data[i].categoryDesc %>>  </td>
+              <% } %>
+          <% } %>
+        </tr>
+        <tr>
+      <% for( var i = 0; i < data.length; i ++) { %>
+        <% if(i == 0) { %>
+          <td><input  readonly style = "text-align: center; font-weight: bold;" value = <%= data[i].attributeDesc %>></td>
+          <% } %>
+        <% if(i > 0) { %>
+          <% if (data[i].attributeID != data[i-1].attributeID) { %>
+          </tr>
+          <tr>
+            <td><input  readonly style = "text-align: center; font-weight: bold;" value = <%= data[i].attributeDesc %>  ></td>
+            <% } %>
+        <% } %>
+        <% console.log(i); %>
+        <td><input style = "text-align: center;" value = "<%= data[i].value %>" name = <%=i %> >  </td>
+      <% } %>
+      <br>
+    </tr>
+  </table>
+  <input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
+      </form>
+    </div>
+  </div>
+</body>
+</html>

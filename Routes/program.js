@@ -20,14 +20,17 @@ module.exports = function(app, passport)
   app.get("/custom", isLoggedIn, isAdmin, function(req,res)
   {
     var dataConv = require('../models/dataconversion.js');
-    res.render('customtable.ejs');
+    res.render('customtable.ejs',
+    {
+      messages: "undefined"
+    });
   });
   app.post("/custom", function (req, res)
   {
     console.log(req.body);
     var dataConv = require('../models/dataconversion.js');
     if(req.user.admin == 1 || req.user.admin ==0)
-    dataConv.makeData(req.body, req.user, function(attributeId, categoryId)
+    dataConv.makeData(req.body, req.user,res, req, function(attributeId, categoryId)
     {
       console.log("made the table!")
       return  res.redirect('/profile');
@@ -130,11 +133,16 @@ module.exports = function(app, passport)
       var displayTables = require('../models/formRetriever.js');
       displayTables.getFormIndex(req.user, function(dataArray)
       {
-        res.render('Profile.ejs',
+        displayTables.getFilledForms(req.user, function(filledForms)
         {
-          user: req.user,
-          data: dataArray
-        });
+          res.render('Profile.ejs',
+          {
+            user: req.user,
+            data: dataArray,
+            filledForms: filledForms
+          });
+        })
+
       });
     });
     // ======================================
@@ -175,6 +183,47 @@ module.exports = function(app, passport)
 
       });
     });
+    // =====================================
+    // VIEW FILLED FORM ====================
+    // =====================================
+    app.get('/viewForm', isLoggedIn, function(req, res)
+    {
+      var retriever = require('../models/formRetriever.js');
+      if(req.user.ID == req.query.userId)
+      {
+      retriever.viewForm(req.user, req.query.Title, function( arrayOfData)
+      {
+        console.log(arrayOfData);
+        res.render('viewForm.ejs',
+        {
+          data: arrayOfData,
+          title: req.query.Title
+        });
+
+      });
+      }
+      else
+      {
+          res.redirect('/profile');
+      }
+
+    });
+    app.post('/viewForm', isLoggedIn, function (req, res)
+    {
+      var retriever = require('../models/formRetriever.js');
+      if(req.user.ID == req.query.userId)
+      {
+          retriever.viewForm(req.user, req.query.Title, function(arrayOfData)
+          {
+            console.log("?????????");
+            retriever.submitFormEdit(req.body, req.user, arrayOfData, function()
+            {
+
+              res.redirect('/profile');
+            })
+          });
+      }
+    })
     // =====================================
     // PASSWORD RESET ======================
     // =====================================

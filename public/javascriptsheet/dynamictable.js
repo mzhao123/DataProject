@@ -22,7 +22,7 @@ $('.table-add-row').click(function () {
     //inserts new column into the cloned table row based on size in the right place
     if(x == rowCounter-1)
     {
-      $clone.find('td').eq(0).before('<td class = "first-col" type = "text" style = "text-align: center;" ><input type = "text" style = "text-align: center; font-weight: bold;" placeholder = " New Attribute" name = "Attribute' + String(rows-1) +'" ></td>');
+      $clone.find('td').eq(0).before('<td class = "first-col" type = "text" style = "text-align: center;" ><input required type = "text" style = "text-align: center; font-weight: bold;" placeholder = " New Attribute" name = "Attribute' + String(rows-1) +'" ></td>');
     }
     else
     {
@@ -52,7 +52,7 @@ $('.table-add-column').click(function(){
     var colLength = document.getElementById('firstTableRow').cells.length;
 
     //adds the cloned td as a column to the first row
-    $($ACTUALTABLE.find('tr').eq(0).find('td').eq(colLength-1)).after('<td id = "firstCol" style = "text-align: center;"> <input type = "text" name ="category'+categoryCounter+'" placeholder = "Category Name" style = "text-align:center; font-weight: bold; "></input></td>');
+    $($ACTUALTABLE.find('tr').eq(0).find('td').eq(colLength-1)).after('<td id = "firstCol" style = "text-align: center;"> <input required type = "text" name ="category'+categoryCounter+'" placeholder = "Category Name" style = "text-align:center; font-weight: bold; "></input></td>');
     categoryCounter ++;
 
     //goes through each row
