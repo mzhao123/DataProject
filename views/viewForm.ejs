@@ -7,7 +7,7 @@
     <style>
       .table
       {
-        table-layout:fixed;
+
         width: 100% !important;
         margin-top: 1.5%;
         margin-bottom: 7.5%;
@@ -33,29 +33,30 @@
     <form method = "POST" style = "margin-left: auto; margin-right: auto;">
       <table  class = "table">
         <tr>
+
           <td> <input style = "text-align: center; font-weight: bold;" value = "Attribute/Category" readonly >  </td>
           <td> <input readonly style = "text-align: center; font-weight: bold;" value = "<%= data[0].categoryDesc%>"> </td>
-          <% var aID = data[0].attributeID %>
+          <% var aID = data[0].AttributeID;  %>
           <% for( var i = 1; i < data.length; i ++) { %>
-              <% if (data[i].attributeID == aID && (data[i].categoryID > data[i-1].categoryID) ) { %>
-                <td><input  readonly style = "text-align: center; font-weight: bold;" value = <%= data[i].categoryDesc %>>  </td>
+              <% if (data[i].AttributeID == aID && (data[i].CategoryID != data[i-1].CategoryID) ) { %>
+                <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].categoryDesc %>">  </td>
               <% } %>
           <% } %>
         </tr>
         <tr>
       <% for( var i = 0; i < data.length; i ++) { %>
         <% if(i == 0) { %>
-          <td><input  readonly style = "text-align: center; font-weight: bold;" value = <%= data[i].attributeDesc %>></td>
+          <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].attributeDesc %>"></td>
           <% } %>
         <% if(i > 0) { %>
-          <% if (data[i].attributeID != data[i-1].attributeID) { %>
+          <% if (data[i].AttributeID != data[i-1].AttributeID) { %>
           </tr>
           <tr>
-            <td><input  readonly style = "text-align: center; font-weight: bold;" value = <%= data[i].attributeDesc %>  ></td>
-            <% } %>
-        <% } %>
-        <% console.log(i); %>
-        <td><input style = "text-align: center;" value = "<%= data[i].value %>" name = <%=i %> >  </td>
+            <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].attributeDesc %>"  ></td>
+            <%  } %>
+        <%   } %>
+        <%  %>
+        <td><input style = "text-align: center;" value = "<%= data[i].Value %>" name = <%=i %> >  </td>
       <% } %>
       <br>
     </tr>

@@ -5,69 +5,8 @@ var $EXPORT = $('#export');
 var $ACTUALTABLE = $('.table');
 var categoryCounter = 2;
 //adds row
-$('.table-add-row').click(function () {
-  var rows = document.getElementById('myTable').rows.length
-  //clones the tr and removes the "hide" class from it so it is visible
-  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-  var rowCounter = $('#firstTableRow td').length;
-  var col = 1;
-  var curRow = 2;
-  for (var x = rowCounter-1; x > 0; x--)
-  { console.log(rowCounter);
-    if( x == rowCounter -1)
-    {
-      col = 1;
-      curRow =2;
-    }
-    //inserts new column into the cloned table row based on size in the right place
-    if(x == rowCounter-1)
-    {
-      $clone.find('td').eq(0).before('<td class = "first-col" type = "text" style = "text-align: center;" ><input required type = "text" style = "text-align: center; font-weight: bold;" placeholder = " New Attribute" name = "Attribute' + String(rows-1) +'" ></td>');
-    }
-    else
-    {
-      if(col == 1)
-      {
-        $clone.find('td').eq(col).find('input').attr('name', String(rows-1) + String(curRow-1))
-        $clone.find('td').eq(col).after('<td style = "text-align: center;"> <input type = "text" name = "'+ String(rows-1) +  String(curRow) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
-        col ++;
-        curRow ++;
-      }
-      else
-      {
-        $clone.find('td').eq(col).after('<td style = "text-align: center;"> <input type = "text" name = "'+ String(rows-1) +  String(curRow) +'"  placeholder = "undefined" style = "text-align:center"></input></td>');
-        col ++;
-        curRow++;
-      }
-    }
-  }
-  //adds the table row
-  $TABLE.find('table').append($clone);
-});
 
-//Adds column to the table
-$('.table-add-column').click(function(){
-    //finds the td, removes the hide class
-    var $clone = $TABLE.find('td.hide').clone(true).removeClass('hide');
-    var colLength = document.getElementById('firstTableRow').cells.length;
 
-    //adds the cloned td as a column to the first row
-    $($ACTUALTABLE.find('tr').eq(0).find('td').eq(colLength-1)).after('<td id = "firstCol" style = "text-align: center;"> <input required type = "text" name ="category'+categoryCounter+'" placeholder = "Category Name" style = "text-align:center; font-weight: bold; "></input></td>');
-    categoryCounter ++;
-
-    //goes through each row
-    $ACTUALTABLE.find('tr').each(function(){
-      var currentRow = $(this);
-      var trow = document.getElementById('myTable').rows[0]
-      // trow.index is greater than 2 because it skips the first tr and also a tr that is hidden
-      if(currentRow.index() >0)
-      {
-        //inserts the new column for the current row
-
-        currentRow.find('td').eq(trow.cells.length-2).after('<td id = "firstCol" style = "text-align: center;"> <input type = "text" name = "'+ String(currentRow.index()) + String(trow.cells.length-1) +'"  placeholder = "undefined" style = "text-align:center"> </input></td>');
-      }
-    })
-})
 
 
 $('.table-delete-column').click(function(){
@@ -111,12 +50,17 @@ $('.table-delete-column').click(function(){
 
           if(j != 1)
           {//array of all the input tags --- an unpleasant hack, I know
+          var predefined = tab.rows[j].getElementsByTagName('select');
           var inputs = tab.rows[j].getElementsByTagName('input');
-
-          for(var i = 0; i < inputs.length; i++)
+          for(var i = 0; i < predefined.length; i++)
           {
             //adding to the tab_text while inserting the <td> tags with the array of all the input tags
-            tab_text = tab_text + "<td>" + inputs[i].value + "</td>" ;
+            tab_text = tab_text + "<td>" + predefined[i].value + "</td>" ;
+            for(var x = 0; x < inputs.length; x++)
+            {
+
+              tab_text = tab_text + "<td>" + inputs[x].value + "</td>" ;
+            }
           }
           tab_text=tab_text+"</tr>";
           }

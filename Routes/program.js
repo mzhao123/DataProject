@@ -1,3 +1,4 @@
+//https://stackoverflow.com/questions/2923809/many-to-many-relationships-examples
 var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
@@ -20,17 +21,27 @@ module.exports = function(app, passport)
   app.get("/custom", isLoggedIn, isAdmin, function(req,res)
   {
     var dataConv = require('../models/dataconversion.js');
-    res.render('customtable.ejs',
+    var query = require("../models/query.js");
+    query.newQuery("SELECT * FROM categories", function(err, categories)
     {
-      messages: "undefined"
-    });
+      query.newQuery("SELECT * FROM attributes", function(err, attributes)
+      {
+        console.log(categories);
+        res.render('customtable.ejs',
+        {
+          chooseAttri: attributes,
+          chooseCat: categories,
+          messages: "undefined"
+        });
+      })
+    })
   });
   app.post("/custom", function (req, res)
   {
     console.log(req.body);
     var dataConv = require('../models/dataconversion.js');
     if(req.user.admin == 1 || req.user.admin ==0)
-    dataConv.makeData(req.body, req.user,res, req, function(attributeId, categoryId)
+    dataConv.makeForm(req.body, req.user,res, req, function()
     {
       console.log("made the table!")
       return  res.redirect('/profile');
@@ -131,19 +142,21 @@ module.exports = function(app, passport)
       console.log(req.user);
       var query = require('../models/query.js');
       var displayTables = require('../models/formRetriever.js');
-      displayTables.getFormIndex(req.user, function(dataArray)
-      {
-        displayTables.getFilledForms(req.user, function(filledForms)
-        {
-          res.render('Profile.ejs',
+        displayTables.getFormIndex(req.user, function(formData)
           {
-            user: req.user,
-            data: dataArray,
-            filledForms: filledForms
+            displayTables.getFilledForms(req.user, function (filledFormTitle)
+            {
+              console.log(filledFormTitle);
+              console.log("hola");
+              console.log("filledFormTitle")
+              res.render('Profile.ejs',
+              {
+                user: req.user,
+                unfilledForms: formData,
+                filledForms: filledFormTitle
+              });
+            });
           });
-        })
-
-      });
     });
     // ======================================
     // FILL FORM ============================
@@ -152,13 +165,10 @@ module.exports = function(app, passport)
     {
       var query = require ('../models/query.js');
       var retriever = require('../models/formRetriever.js');
-      console.log(req.user);
       retriever.displayForm(req.user, req.query, function(categoryArray, attributeArray)
       {
-        query.newQuery("SELECT Title FROM datatable WHERE Id= " + req.query.formId, function(error, formTitle)
+        query.newQuery("SELECT Title FROM form WHERE Id= " + req.query.formId, function(error, formTitle)
         {
-          console.log(formTitle);
-
           res.render('form.ejs',
           {
             title: formTitle,
@@ -172,10 +182,9 @@ module.exports = function(app, passport)
     {
       var convert = require ('../models/dataconversion.js');
       var retriever = require('../models/formRetriever.js');
-      console.log(req.user);
       retriever.displayForm(req.user, req.query, function(categoryArray1, attributeArray1)
       {
-        convert.processData(req.body, req.user, categoryArray1, attributeArray1, function()
+        convert.processData(req.body, req.user, req.query, categoryArray1, attributeArray1, function()
         {
           console.log("all done baby!");
           res.redirect('/profile')
@@ -189,10 +198,10 @@ module.exports = function(app, passport)
     app.get('/viewForm', isLoggedIn, function(req, res)
     {
       var retriever = require('../models/formRetriever.js');
-      if(req.user.ID == req.query.userId)
+
+      retriever.viewForm(req.user, req.query, function( arrayOfData)
       {
-      retriever.viewForm(req.user, req.query.Title, function( arrayOfData)
-      {
+        console.log("wtf?")
         console.log(arrayOfData);
         res.render('viewForm.ejs',
         {
@@ -201,28 +210,19 @@ module.exports = function(app, passport)
         });
 
       });
-      }
-      else
-      {
-          res.redirect('/profile');
-      }
 
     });
     app.post('/viewForm', isLoggedIn, function (req, res)
     {
       var retriever = require('../models/formRetriever.js');
-      if(req.user.ID == req.query.userId)
-      {
-          retriever.viewForm(req.user, req.query.Title, function(arrayOfData)
+          retriever.viewForm(req.user, req.query, function(arrayOfData)
           {
             console.log("?????????");
-            retriever.submitFormEdit(req.body, req.user, arrayOfData, function()
+            retriever.submitFormEdit(req.body, req.user, arrayOfData, req.query, function()
             {
-
               res.redirect('/profile');
             })
           });
-      }
     })
     // =====================================
     // PASSWORD RESET ======================
@@ -324,6 +324,7 @@ module.exports = function(app, passport)
     });
     app.post('/upload', function(req, res){
 
+
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
@@ -353,7 +354,25 @@ module.exports = function(app, passport)
   form.parse(req);
 
 });
-
+app.get('/createNew', isLoggedIn, isAdmin, function(req, res)
+{
+  res.render('createRows.ejs',
+  {
+    attriMessage: "",
+    catMessage: "",
+    successMessage: ""
+  });
+})
+app.post("/submitCategory", isLoggedIn, isAdmin, function(req, res)
+{
+  var category = require('../models/dataconversion');
+  category.makeCategory(req.body, req.user, res, req);
+})
+app.post("/submitAttribute", isLoggedIn, isAdmin, function(req, res)
+{
+  var attribute = require('../models/dataconversion');
+  attribute.makeAttribute(req.body, req.user, res, req);
+})
     // ============================
     //helper funtions =============
     // ============================

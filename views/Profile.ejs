@@ -102,24 +102,18 @@
     </div>
     <div class= "col-sm-10 col-sm-offset-1 well" style= "border: 2px solid black; background-color: 	#FFFFF0; ">
       <h3 style = "margin-left: 4.25%; font-size: 32px; " ><span class = "fa fa-user"></span> Forms</h3>
-      <% if(data.length > 0) { %>
-        <h3 style = " font-size: 30px; float: left; margin-left: 4.25%; margin-bottom: 3.5%;"> Empty forms you can fill out </h3> <br>
-              <div style = "margin-left: 4.25%; margin-bottom: 3%;">
-                <% for (var i = 0; i < data.length; i++) { %>
-                  <!-- formId = datatable.Id -->
-                  <a href = "fillForm?formId=<%= data[i].Id%>&formGroupNumber=<%= data[i].GroupNumber%>"class="btn btn-default reportData"><span class="fa fa-pencil"></span> Form Name: <%= data[i].Title %> </a>
-                  <br>
-                  <% } %>
-              </div>
-          <% } %>
+
+        <h3 style = " font-size: 30px; float: left; margin-left: 4.25%; margin-bottom: 3.5%; "> Empty forms you can fill out </h3> <br>
+          <% for (var i = 0; i < unfilledForms.length; i ++) {%>
+            <a href = "fillForm?formId=<%= unfilledForms[i].Id%>&formGroupNumber=<%= unfilledForms[i].GroupNumber%>" class="btn btn-default reportData" style = "margin-left: 4.25%;"><span class="fa fa-user"></span> <%= unfilledForms[i].Title %> </a>
+          <%}%>
+
     </div>
     <div class= "col-sm-10 col-sm-offset-1 well" style= "border: 2px solid black; background-color: 	#FFFFF0; ">
       <h3 style = "margin-left: 4.25%; font-size: 32px; " ><span class = "fa fa-user"></span> View/Edit Filled Forms</h3>
-      <div style = "margin-left: 4.25%; margin-bottom: 3%;">
-      <% for (var i = 0; i < filledForms.length; i++) { %>
-        <a href = "viewForm?userId=<%= user.ID%>&Title=<%= filledForms[i] %>"class="btn btn-default reportData"><span class="fa fa-pencil"></span> Form Name: <%= filledForms[i] %> </a>
-          <% } %>
-      </div>
+      <% for (var i = 0; i < filledForms.length; i ++) {    console.log(filledForms); %>
+        <a href = "viewForm?Title=<%= filledForms[i].Title%>&formID=<%= filledForms[i].Id%>" class="btn btn-default reportData" style = "margin-left: 4.25%;"><span class="fa fa-user"></span> <%= filledForms[i].Title %> </a>
+        <% }%>
     </div>
 
         <div style = "margin-bottom: 2%;">
@@ -128,6 +122,7 @@
         <br>
         <% if(user.admin==1){%>
           <a class = "btn btn-success" href="/custom" style = "margin-left: 10%;">Create Table</a>
+            <a class = "btn btn-success" href="/createNew" style = "margin-left: 10%;">Create Attributes/Categories</a>
           <% } %>
         </div>
 </body>

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 <head>
@@ -24,14 +25,14 @@
     <table class = "table" id ="myTable" style = "border: none;">
         <tr>
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute/Category<b></td>
-          <% for (var i = 0; i < category.length; i++) { %>
-            <td style = "text-align: center; font-weight: bold;" ><b> <input id = "<%= "0" + String(i+1) %>" style = "text-align:center; font-weight: bold;" value = "<%=category[i].Description%>" readonly></b></td>
+          <% for (var i = 0; i < category.length; i++) {  %>
+            <td style = "text-align: center; font-weight: bold;" ><b> <input id = "<%= "0" + String(i+1) %>" style = "text-align:center; font-weight: bold;" value = '<%=category[i][0].Description %>' readonly></b></td>
               <% } %>
             </tr>
               <br>
-      <% for (var i = 0; i < attribute.length; i++) { %>
+      <% for (var i = 0; i < attribute.length; i++) {  %>
         <tr>
-          <td style = "text-align: center;" ><b> <input id = "<%=String(i+1)+ "0" %>" style = "text-align:center; font-weight: bold;" value = "<%=attribute[i].Description%>" readonly> </b></td>
+          <td style = "text-align: center;" ><b> <input id = "<%=String(i+1)+ "0" %>" style = "text-align:center; font-weight: bold;" value = "<%=attribute[i][0].Description%>" readonly> </b></td>
           <% for(var j = 0; j < category.length; j ++ ) { %>
             <td style = "text-align: center;"><input name = "<%= String(i+1) + String(j+1)%>" id = "<%= String(i+1) + String(j+1)%>" type = "text" style = "text-align:center;"></td>
           <% } %>
@@ -47,6 +48,7 @@
   Upload an excel file: <input type = "file" id = "input-excel"/>
   <br>
   <p>Please make sure you select the right excel file and make sure you name your excel sheet "sheet1"</p>
+  <p> Also, please save your excel file as an 'xlsx' file (2007 version or newer)</p>
 </div>
 <table id = "newTable" class="table" >
 <tr class = "hide"></tr>
@@ -65,7 +67,7 @@ var $TABLE = $('#newTable');
                 reader.onload = function(e) {
                         var data = new Uint8Array(reader.result);
                         var wb = XLSX.read(data,{type:'array'});
-                        var htmlstr = XLSX.write(wb,{sheet:"Sheet1", type:'binary',bookType:'html'});
+                        var htmlstr = XLSX.write(wb,{sheet:"sheet1", type:'binary',bookType:'html'});
 
                       htmlstr =  htmlstr.replace(/<table>/, '<table id = "oldTable">');
                         console.log(htmlstr);
@@ -92,7 +94,7 @@ var $TABLE = $('#newTable');
         {
           var currentLetter = 'B';
           var currentNumber = 1;
-          //check to see if user submitted right excel table/sheet
+          //check to see if user submitted right-sized excel table/sheet
           var match = true;
           if((document.getElementById('oldTable').rows[0].cells.length == document.getElementById('myTable').rows[0].cells.length) && (document.getElementById('oldTable').rows.length == document.getElementById('myTable').rows.length))
           {
@@ -134,13 +136,15 @@ var $TABLE = $('#newTable');
           }
           if(match == true)
           {
+            console.log(document.getElementById('myTable').rows.length)
             //bottom form starts at b2 top form starts at 11
-            for(var i = 1; i < document.getElementById('myTable').rows[0].cells.length; i ++ )
+            for(var i = 1; i < document.getElementById('myTable').rows.length; i ++ )
             {
               currentLetter = "B";
-              for( var j = 1; j< document.getElementById('myTable').rows.length; j ++ )
+              for( var j = 1; j< document.getElementById('myTable').rows[0].cells.length; j ++ )
               {
                 console.log("sjs-" + currentLetter + String(j+1).innerHTML);
+                console.log(document.getElementById('myTable').rows.length);
                 console.log(document.getElementById(String(i) + String(j)).innerHTML);
                 document.getElementById(String(i) + String(j)).value = document.getElementById("sjs-" + currentLetter + String(i+1)).innerHTML;
                 currentLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
@@ -160,8 +164,7 @@ var $TABLE = $('#newTable');
             for(j = 0 ; j < tab.rows.length ; j++)
             {
 
-                if(j != 1)
-                {//array of all the input tags --- an unpleasant hack, I know
+
                 var inputs = tab.rows[j].getElementsByTagName('input');
 
                 for(var i = 0; i < inputs.length; i++)
@@ -170,7 +173,8 @@ var $TABLE = $('#newTable');
                   tab_text = tab_text + "<td>" + inputs[i].value + "</td>" ;
                 }
                 tab_text=tab_text+"</tr>";
-                }
+
+
             }
             //replacing the unwanted columns in the excel chart. kind of a hack where I just go into the tab_text string and remove the columns that contain the glyphicons so the excel sheet doesn't contain it
             tab_text = tab_text.replace(/<td class="no-delete"><span class="table-remove glyphicon glyphicon-remove" style="margin-left: 5%;"><\/span><\/td>/g,'');

@@ -46,28 +46,55 @@ module.exports =
   //displays the form menu for the profile page
   getFormIndex: function(reqUser, callback)
   {
-    query.newQuery("SELECT * FROM datatable WHERE GroupNumber =" + reqUser.GroupNumber + ";", function(err, data)
+    query.newQuery("SELECT * FROM form WHERE GroupNumber =" + reqUser.GroupNumber + ";", function(err, data)
     {
       callback(data);
     });
   },
   displayForm: function(reqUser, reqQuery, callback)
   {
+    var catArray = [];
+    var attriArray = [];
     if(reqUser.GroupNumber == reqQuery.formGroupNumber)
     {
-      query.newQuery("SELECT * FROM categories WHERE datatableid =" + reqQuery.formId + " ORDER BY ID ;", function(err, data)
+      query.newQuery("SELECT * FROM formcategory WHERE formID =" + reqQuery.formId + " ORDER BY ID ;", function(err, data)
       {
-        query.newQuery("SELECT * FROM attributes WHERE datatableid =" + reqQuery.formId + " ORDER BY ID;", function(err, data1)
+        syncloop.synchIt(data.length, function(loop)
         {
-          // data --> categories data1 --> attributes
-          callback(data, data1);
-        })
+          query.newQuery("SELECT * FROM categories WHERE ID=" + data[loop.iteration()].categoryID, function(err, data1)
+          {
+              catArray.push(data1);
+              if(loop.iteration() == data.length-1)
+              {
+                query.newQuery("SELECT * FROM formattribute WHERE formID =" + reqQuery.formId + " ORDER BY ID;", function(err, data2)
+                {
+                  syncloop.synchIt1(data2.length, function(loop1)
+                  {
+                    query.newQuery("SELECT * FROM attributes WHERE ID =" + data2[loop1.iteration()].attributeID, function(err, data3)
+                    {
+
+                      attriArray.push(data3);
+
+                      if(loop1.iteration() == data2.length-1)
+                      {
+
+                        callback(catArray, attriArray)
+                      }
+                      loop1.next();
+                    })
+                  });
+                })
+              }
+              loop.next();
+          })
+        });
       });
     }
     else
     {
-        var data = [];
-        var data1 = [];
+
+      var catArray = [];
+      var data1 = [];
         callback( data, data1);
     }
   },
@@ -75,68 +102,54 @@ module.exports =
   getFilledForms: function ( reqUser, callback)
   {
     var filledForms = [];
-    query.newQuery("SELECT * FROM datatable WHERE GroupNumber =" + reqUser.GroupNumber + " ORDER BY Id ;", function(err, data)
+    query.newQuery("SELECT * FROM form WHERE GroupNumber =" + reqUser.GroupNumber + " ORDER BY Id ;", function(err, data)
     {
       //syncloop allows for a synchronous for loop...yay!
       syncloop.synchIt(data.length, function(loop)
       {
         console.log(data);
-        //query to see if a form exists or not not sure if the join/alias are necessary, but I put them in for some extra programming practice
-        query.newQuery("SELECT d.value, a.description AS attributeDesc, c.description AS categoryDesc FROM datavalues d JOIN attributes a ON d.AttributeID = a.ID JOIN categories c ON d.CategoryID = c.ID WHERE a.datatableid =" + data[loop.iteration()].Id, function (err, data1)
+        query.newQuery("SELECT * FROM datavalues WHERE formID =" + data[loop.iteration()].Id + " AND userID = " + reqUser.ID , function(err, data1)
         {
-          //if form doesn't exist, skip
-          if(data1.length == 0)
+          if(data1.length > 0)
           {
-            if(loop.iteration() == data.length-1)
+            filledForms.push(data[loop.iteration()])
+            if(loop.iteration() == data.length -1)
             {
-                  callback(filledForms);
-                  console.log(data1);
+              callback(filledForms)
             }
-              loop.next();
+            loop.next();
           }
-          //if form exists, we push the title to the array
-          else if(data1.length > 0)
+          else
           {
-            query.newQuery("SELECT Title FROM datatable WHERE Id =" + data[loop.iteration()].Id, function(err, data2)
+            if(loop.iteration() == data.length -1)
             {
-              console.log(data2[0].Title);
-              filledForms.push(data2[0].Title);
-              if(loop.iteration() == data.length-1)
-              {
-                    callback(filledForms);
-              }
-              loop.next();
-            });
+              callback(filledForms)
+            }
+            loop.next();
           }
         });
       });
     });
   },
-  viewForm: function(reqUser, title, callback)
+  viewForm: function(reqUser, reqQuery, callback)
   {
-    query.newQuery("SELECT * FROM datatable WHERE Title = '" + title + "';", function (err, data)
+    query.newQuery("SELECT ID FROM form WHERE Title ='" + reqQuery.Title + "'", function(err, data)
     {
-      //some kind of error occured, user messed with query string, filled form was deleted...etc
-      if(data.length != 1)
+      query.newQuery("SELECT d.ID AS dataID, d.Value, d.AttributeID , d.CategoryID, d.formID, a.Description AS attributeDesc, c.Description AS categoryDesc FROM datavalues d JOIN attributes a ON d.AttributeID = a.ID JOIN categories c ON d.CategoryID = c.ID WHERE d.formID = " + data[0].ID + " AND d.userID =" + reqUser.ID + " ORDER BY dataID", function(err, data1)
       {
-        console.log("error, more than 1 form with the same name...dafaq?");
-      }
-      //so far so good if the else statement is accessed
-      else
-      {
-        query.newQuery("SELECT d.value, a.description AS attributeDesc, a.ID AS attributeID, c.description AS categoryDesc, c.ID AS categoryID FROM datavalues d JOIN attributes a ON d.AttributeID = a.ID JOIN categories c ON d.CategoryID = c.ID WHERE a.datatableid =" + data[0].Id , function (err, data1)
-        {
-          callback(data1);
-        });
-      }
+        callback(data1);
+      });
     })
   },
-  submitFormEdit: function(reqBody, reqUser, formData, callback)
+  submitFormEdit: function(reqBody, reqUser, formData, reqQuery, callback)
   {
     console.log("@#@#@#");
+    query.newQuery("SELECT d.ID AS dataID, d.Value, d.AttributeID , d.CategoryID, d.formID, a.Description AS attributeDesc, c.Description AS categoryDesc FROM datavalues d JOIN attributes a ON d.AttributeID = a.ID JOIN categories c ON d.CategoryID = c.ID WHERE d.formID = " + reqQuery.formID + " AND d.userID =" + reqUser.ID + " ORDER BY dataID", function(err, data1)
+    {
+      console.log(data1[0]);
     syncloop.synchIt(formData.length, function(loop)
     {
-      query.newQuery("UPDATE datavalues SET Value ='" + reqBody[loop.iteration()] + "' WHERE CategoryID =" + formData[loop.iteration()].categoryID + " AND AttributeID =" + formData[loop.iteration()].attributeID + " AND userID = " + reqUser.ID, function(err, data)
+      query.newQuery("UPDATE datavalues SET Value ='" + reqBody[loop.iteration()] + "' WHERE CategoryID =" + data1[loop.iteration()].CategoryID + " AND AttributeID =" + data1[loop.iteration()].AttributeID + " AND userID = " + reqUser.ID + " AND formID =" + reqQuery.formID, function(err, data)
       {
 
         if(loop.iteration() == formData.length-1)
@@ -146,5 +159,6 @@ module.exports =
         loop.next();
       });
     });
+  });
   }
 }
