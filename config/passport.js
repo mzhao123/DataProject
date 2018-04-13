@@ -93,6 +93,7 @@ function(req, userName, password, done)
       console.log(statement);
       if (statement)
       {
+        console.log("hi");
         return done(null, false, req.flash('signupMessage', 'That username is already in use'));
       }
       else

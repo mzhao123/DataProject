@@ -71,6 +71,9 @@ function saveForm()
     </div>
   <div class="col-sm-8 col-sm-offset-2 box">
 
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
     <form action="/signup" method="post">
       <div class="form-group">
           <label for "userName"><b>Username:</b> </label>
