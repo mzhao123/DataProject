@@ -59,6 +59,8 @@ module.exports =
     {
       query.newQuery("SELECT * FROM formcategory WHERE formID =" + reqQuery.formId + " ORDER BY ID ;", function(err, data)
       {
+        if(data.length >0)
+        {
         syncloop.synchIt(data.length, function(loop)
         {
           query.newQuery("SELECT * FROM categories WHERE ID=" + data[loop.iteration()].categoryID, function(err, data1)
@@ -77,7 +79,7 @@ module.exports =
 
                       if(loop1.iteration() == data2.length-1)
                       {
-
+                        console.log("hi");
                         callback(catArray, attriArray)
                       }
                       loop1.next();
@@ -88,6 +90,11 @@ module.exports =
               loop.next();
           })
         });
+        }
+        else
+        {
+            callback(catArray, attriArray);
+        }
       });
     }
     else
@@ -104,6 +111,8 @@ module.exports =
     var filledForms = [];
     query.newQuery("SELECT * FROM form WHERE GroupNumber =" + reqUser.GroupNumber + " ORDER BY Id ;", function(err, data)
     {
+      if(data.lenth > 0)
+      {
       //syncloop allows for a synchronous for loop...yay!
       syncloop.synchIt(data.length, function(loop)
       {
@@ -129,6 +138,11 @@ module.exports =
           }
         });
       });
+    }
+    else
+    {
+      callback(filledForms);
+    }
     });
   },
   viewForm: function(reqUser, reqQuery, callback)
