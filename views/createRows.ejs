@@ -7,6 +7,7 @@
   <title>HTML5 Editable Table</title>
   <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
   <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 <style>
 body
 {
@@ -21,6 +22,10 @@ body
 h1
 {
   margin-bottom: 2.5%;
+}
+input
+{
+  text-align: center;
 }
 </style>
 </head>
@@ -41,7 +46,7 @@ h1
     <% } %>
   <form method = "post" action = "/submitCategory">
     <label for "newCategory"> New category name here: </label>
-    <input name = "newCategory" type = "text">
+    <input name = "newCategory" type = "text" >
     <input type = "submit" class="btn btn-warning">
   </form>
   <br>

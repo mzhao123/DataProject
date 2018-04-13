@@ -69,7 +69,7 @@ var $TABLE = $('#newTable');
                         var wb = XLSX.read(data,{type:'array'});
                         var htmlstr = XLSX.write(wb,{sheet:"sheet1", type:'binary',bookType:'html'});
 
-                      htmlstr =  htmlstr.replace(/<table>/, '<table id = "oldTable">');
+                      htmlstr =  htmlstr.replace(/<table>/, '<table id = "oldTable" class = "table">');
                         console.log(htmlstr);
                         $('#wrapper')[0].innerHTML += htmlstr;
                         $('#editTable').removeClass('hide');
@@ -101,6 +101,7 @@ var $TABLE = $('#newTable');
             // the size of the table matches, now we check the actual contents
             for( var i = 0; i < document.getElementById('oldTable').rows[0].cells.length-1; i ++ )
             {
+              //check if categories match or not
               if(document.getElementById("0" + String(i+1)).value == document.getElementById("sjs-" + currentLetter + String(1)).innerHTML )
               {
                 console.log("matched!");
