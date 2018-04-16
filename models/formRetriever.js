@@ -111,7 +111,7 @@ module.exports =
     var filledForms = [];
     query.newQuery("SELECT * FROM form WHERE GroupNumber =" + reqUser.GroupNumber + " ORDER BY Id ;", function(err, data)
     {
-      if(data.lenth > 0)
+      if(data.length > 0)
       {
       //syncloop allows for a synchronous for loop...yay!
       syncloop.synchIt(data.length, function(loop)
@@ -121,6 +121,7 @@ module.exports =
         {
           if(data1.length > 0)
           {
+            console.log(data1);
             filledForms.push(data[loop.iteration()])
             if(loop.iteration() == data.length -1)
             {

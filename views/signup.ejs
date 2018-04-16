@@ -74,6 +74,9 @@ function saveForm()
     <% if (message.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
+    <% if (message1.length > 0) { %>
+        <div class="alert alert-danger"><%= message1 %></div>
+    <% } %>
     <form action="/signup" method="post">
       <div class="form-group">
           <label for "userName"><b>Username:</b> </label>
