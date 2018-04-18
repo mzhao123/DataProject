@@ -1,5 +1,7 @@
 var express = require('express');
 
+var http = require('http')
+
 var app = express();
 
 var path = require('path');
@@ -24,11 +26,12 @@ var formidable = require('formidable');
 var fs = require('fs');
 
 require('./config/passport')(passport); // pass passport for configuration
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 console.log("hi");
-app.listen(3000);
+
 
 app.use(logger('dev')); //log every request to the CONSOLE.
 app.use(bodyParser.json());
@@ -54,6 +57,9 @@ var pool = mysql.createPool({
 pool.getConnection(function(err, connection) {
   if (err) throw err;
   //Nothing goes here yet
+});
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
 });
 index(app, passport);
 module.exports = app;

@@ -36,8 +36,19 @@ The logic of this application is mainly done in Javascript and Java might be imp
 
 # Current features that users can implement
 
-### Sign up
+### Sign up:
 ![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/Signup.png)
+
+### view your profile and available forms:
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/profile.png)
 
 ### dynamic table creation (admin only):
 ![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/EditableForm.png)
+
+### Submit custom-generated forms:
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/emptyform.png)
+
+### export/import forms to excel:
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/excelfunctionality.png)
+
+###
