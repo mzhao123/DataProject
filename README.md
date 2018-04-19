@@ -34,6 +34,12 @@ The logic of this application is mainly done in Javascript and Java might be imp
 - Import excel files and convert it to a form
 - Form submission to a database
 
+### Features to be completed:
+-A way to create admin users without accessing the database directly
+-
+
+### Possible far-fetched future features:
+- The ability to select specific users to be able to view/edit forms
 # Current features that users can implement
 
 ### Sign up:
