@@ -55,7 +55,9 @@ generateTokenObject: function(userID, countdownMinutes, callback)
   callback(tokenObject);
 },
 
-  //This will go through the token table, deleting all expired tokens
+   //This will go through the token table, deleting all expired tokens
+  //I wrote this function in the FNTPR project here: https://github.com/mzhao123/IBMCLoudDemo-FNTPR-DANIEL
+  //  app.get('/purge', function(req, res) calls these two functions inside
   purgeTokens: function(callback)
   {
     rightNow = new Date();

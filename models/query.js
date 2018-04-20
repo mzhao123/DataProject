@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var pool = mysql.createPool({
   host: 'localhost',
   user: 'Daniel',
-  password: 'gogogo123',
+  password: 'hereisthepass',
   database: 'dataproject'
 })
 module.exports = {

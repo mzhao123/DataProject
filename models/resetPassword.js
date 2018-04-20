@@ -10,12 +10,9 @@ module.exports =
   console.log(req.query.token);
   if(userInfo.password1 == userInfo.password2)
   {
-
     query.newQuery("SELECT * FROM token WHERE token.TokenContent = '" + req.query.token + "';", function(err, tokenData)
-    { console.log("yoooo!");
       loginquery.generateResetHash(userInfo.password1, function (hashedPassword)
       {
-        console.log("hello?");
         query.newQuery("UPDATE user SET password = '" + hashedPassword + "' WHERE ID = " + tokenData[0].UserId + ";", function(err, data)  //query the database to change the password
         {
             console.log("password changed?");

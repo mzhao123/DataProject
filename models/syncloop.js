@@ -1,4 +1,5 @@
 module. exports = {
+  //function that allows for synchronous for loops
 synchIt: function(iterations, process, exit)
 {
 
@@ -41,6 +42,7 @@ synchIt: function(iterations, process, exit)
   loop.next();
   return loop;
 },
+//function that allows for synchronous for loops
 synchIt1: function(iterations, process, exit)
 {
 

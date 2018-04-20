@@ -36,6 +36,7 @@ module.exports = function(app, passport)
       })
     })
   });
+  //creating tables (admin)
   app.post("/custom", function (req, res)
   {
     console.log(req.body);
@@ -48,7 +49,6 @@ module.exports = function(app, passport)
     });
 
   });
-  //not actual profile yet
 
 //passport stuff
   app.get("/login", function(req,res)
@@ -319,41 +319,6 @@ module.exports = function(app, passport)
       resetPass.resetThePassword(req, res);
     });
 
-    app.get('/upload', isLoggedIn, function(req, res){
-      res.sendFile(path.join(__dirname, '../views/excelToHtml.html'));
-    });
-    app.post('/upload', function(req, res){
-
-
-  // create an incoming form object
-  var form = new formidable.IncomingForm();
-
-  // specify that we want to allow the user to upload multiple files in a single request
-  form.multiples = true;
-
-  // store all uploads in the /uploads directory
-  form.uploadDir = path.join(__dirname, '../uploads');
-
-  // every time a file has been uploaded successfully,
-  // rename it to it's orignal name
-  form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
-  });
-
-  // log any errors that occur
-  form.on('error', function(err) {
-    console.log('An error has occured: \n' + err);
-  });
-
-  // once all the files have been uploaded, send a response to the client
-  form.on('end', function() {
-    res.end('success');
-  });
-
-  // parse the incoming request containing the form data
-  form.parse(req);
-
-});
 app.get('/createNew', isLoggedIn, isAdmin, function(req, res)
 {
   res.render('createRows.ejs',
@@ -373,6 +338,27 @@ app.post("/submitAttribute", isLoggedIn, isAdmin, function(req, res)
   var attribute = require('../models/dataconversion');
   attribute.makeAttribute(req.body, req.user, res, req);
 })
+
+// the purge functions!
+app.get('/purge', function(req, res)
+{
+  console.log("I-I-It's the Purge, Morty! We're in The Purge!!");
+
+  //This will delete all expired tokens and unvalidated users without valid tokens!
+  var darkLogin = require('../models/loginquery.js');
+  darkLogin.purgeTokens(function ()
+  {
+    console.log("The tokens have been purged!");
+    darkLogin.purgeAccounts(function ()
+    {
+      console.log("The users have been purged!");
+      res.redirect('/');
+    });
+  });
+});
+
+
+
     // ============================
     //helper funtions =============
     // ============================

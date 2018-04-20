@@ -34,12 +34,12 @@ The logic of this application is mainly done in Javascript and Java might be imp
 - Import excel files and convert it to a form
 - Form submission to a database
 
-### Features to be completed:
--A way to create admin users without accessing the database directly
--
-
 ### Possible far-fetched future features:
 - The ability to select specific users to be able to view/edit forms
+- A way to create admin users without accessing the database directly
+- Delete forms that have been created along with the data from completed forms that users filled out in the past
+- Allow multiple groups to view the same form. This will probably require a many-many relationship in the database.
+
 # Current features that users can implement
 
 ### Sign up:
@@ -57,4 +57,14 @@ The logic of this application is mainly done in Javascript and Java might be imp
 ### export/import forms to excel:
 ![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/excelfunctionality.png)
 
-###
+### attribute and category creation:
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/attributeAndCategoryCreation.png)
+
+### edit/view filled forms
+![Table](https://raw.githubusercontent.com/mzhao123/DataProject/master/pictures/filledForms.png)
+
+# Credit
+### Thanks to:
+- My manager, Sam Shen, for providing me with the guidance and resources needed for this project
+- My co-worker/mentor Tony Xijierfu, for providing me step-by-step guidance and working with me to push the application to Azure
+- You, for being interested in this project.

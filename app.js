@@ -51,7 +51,7 @@ app.use(flash());
 var pool = mysql.createPool({
   host: 'localhost',
   user: 'Daniel',
-  password: 'gogogo123',
+  password: 'hereisthepass',
   database: 'dataproject'
 })
 pool.getConnection(function(err, connection) {
