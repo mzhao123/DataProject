@@ -26,17 +26,6 @@
 </style>
 
 <script>
-    function updateRow()
-    {
-      var numberOfRows = document.getElementById('myTable').rows.length;
-
-      var k = document.getElementsByClassName('first-col')
-      for(var i = 0; i < k.length; i ++)
-      if(k[i] != null)
-      {
-        k[i].querySelector("input").setAttribute("name", "Attribute" + String(i+1));
-      }
-    }
     function updateAllRows()
     {
       var ths = document.getElementById('myTable');
@@ -49,7 +38,7 @@
             console.log(k);
           if(k != null)
           {
-            k.setAttribute("name", "attribute" + String(i-1));
+            k.setAttribute("name", "category" + String(i-1));
           }
 
       }
@@ -67,7 +56,7 @@
 <br>
   <div id="table" class="table-editable container" style = "text-align:center; background-color:#FFFFF0; padding-top: 2%; overflow-x: auto;">
     <button id="btnExport" onclick="fnExcelReport();"> EXPORT </button>
-  <button class="table-add-row btn-success" onclick = 'updateRow(), updateAllRows()' > Add Row</button>
+  <button class="table-add-row btn-success" onclick = 'updateAllRows()' > Add Row</button>
   <button class="table-add-column btn-success" > Add Column </button>
   <button class="table-delete-column btn-danger" > Delete Column </button>  &nbsp;
   <br>
@@ -90,11 +79,11 @@
       <thead>
       <tr class = "first-TR" id = "firstTableRow" >
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>DATATABLE ID:<b></td>
-        <td style = "text-align: center;" class = "no-delete categoryChooser1 y">
-          <select id = "chooseCategory" name = "category1">
-            <option value="" selected disabled hidden>Choose Category</option>
-          <% for( var i = 0; i < chooseCat.length; i ++) { %>
-            <option value = "<%= chooseCat[i].Description %>" > <%= chooseCat[i].Description %> </option>
+        <td style = "text-align: center;" class = "no-delete attributeChooser1 y">
+          <select id = "chooseAttribute" name = "attribute1">
+            <option value="" selected disabled hidden>Choose Attribute</option>
+          <% for( var i = 0; i < chooseAttri.length; i ++) { %>
+            <option value = "<%= chooseAttri[i].Description %>" > <%= chooseAttri[i].Description %> </option>
             <% } %>
           </select>
         </td>
@@ -104,11 +93,11 @@
       <!-- This is our clonable table line -->
       <tbody style = 'white-space: nowrap; '>
       <tr class="hide">
-        <td style = "text-align: center;" class = "no-delete attributeChooser1 x">
-          <select id = "chooseAttribute" name = "attribute1">
-            <option value="" selected disabled hidden>Choose Attribute</option>
-          <% for( var i = 0; i < chooseAttri.length; i ++) { %>
-            <option value = "<%= chooseAttri[i].Description %>" > <%= chooseAttri[i].Description %> </option>
+        <td style = "text-align: center;" class = "no-delete CategpryChooser1 x">
+          <select id = "chooseCategory" name = "category1">
+            <option value="" selected disabled hidden>Choose Category</option>
+          <% for( var i = 0; i < chooseCat.length; i ++) { %>
+            <option value = "<%= chooseCat[i].Description %>" > <%= chooseCat[i].Description %> </option>
             <% } %>
           </select>
         </td>
@@ -135,19 +124,19 @@
 
   <script src = "javascriptsheet/dynamictable.js"></script>
 <script>
-var categoryCounter = 2;
-var attributeCounter =1;
+var categoryCounter = 1;
+var attributeCounter = 2;
 //Adds column to the table
 $('.table-add-column').click(function(){
     //finds the td, removes the hide class
     var $clone = $TABLE.find('td.hide').clone(true).removeClass('hide');
     var colLength = document.getElementById('firstTableRow').cells.length;
-    var $categoryChooser = $TABLE.find('td.y').clone(true).removeClass("y no-delete");
-    $categoryChooser.find('select').attr('name', "category" + categoryCounter);
-    console.log($categoryChooser.length);
+    var $attributeChooser = $TABLE.find('td.y').clone(true).removeClass("y no-delete");
+    $attributeChooser.find('select').attr('name', "attribute" + attributeCounter);
+    console.log($attributeChooser.length);
     //adds the cloned td as a column to the first row
-    $($ACTUALTABLE.find('tr').eq(0).find('td').eq(colLength-1)).after($categoryChooser);
-    categoryCounter ++;
+    $($ACTUALTABLE.find('tr').eq(0).find('td').eq(colLength-1)).after($attributeChooser);
+    attributeCounter ++;
 
     //goes through each row
     $ACTUALTABLE.find('tr').each(function(){
@@ -167,8 +156,8 @@ $('.table-add-row').click(function () {
   var rows = document.getElementById('myTable').rows.length
   //clones the tr and removes the "hide" class from it so it is visible
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-  $clone.find('select').attr('name', "attribute" + attributeCounter);
-  attributeCounter++;
+  $clone.find('select').attr('name', "category" + categoryCounter);
+  categoryCounter++;
   var rowCounter = $('#firstTableRow td').length;
   var col = 1;
   var curRow = 2;

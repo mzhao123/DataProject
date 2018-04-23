@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+    <link rel='stylesheet prefetch' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <style>
       .table
@@ -94,30 +94,33 @@
     <form method = "POST" style = "margin-left: auto; margin-right: auto;">
       <table  class = "table" id = "myTable">
         <tr>
+
           <td> <input style = "text-align: center; font-weight: bold;" value = "Attribute/Category" readonly >  </td>
-         <td> <input readonly style = "text-align: center; font-weight: bold;" value = "<%= data[0].attributeDesc%>" id= "A-0"> </td>
-         <% var cID = data[0].CategoryID; var catDescCounter = 1; var attriDescCounter = 1;  %>
-           <% for( var i = 1; i < data.length; i ++) { %>
-             <% if(data[i].CategoryID == cID && (data[i].AttributeID != data[i-1].AttributeID) ) {%>
-               <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].attributeDesc %>" id = "<%= "A-" + attriDescCounter%>">  </td>
-               <% attriDescCounter = attriDescCounter +1; } %>
-               <% } %>
-            </tr>
-            <tr>
-              <% for(var i = 0; i < data.length; i ++) { %>
-                <% if(i == 0) { %>
-          <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].categoryDesc %>" id = "C-0"></td>
+          <td> <input readonly style = "text-align: center; font-weight: bold;" value = "<%= data[0].categoryDesc%>" id= "C-0"> </td>
+          <% var aID = data[0].AttributeID; var catDescCounter = 1; var attriDescCounter = 1;  %>
+          <% for( var i = 1; i < data.length; i ++) { %>
+              <% if (data[i].AttributeID == aID && (data[i].CategoryID != data[i-1].CategoryID) ) { %>
+                <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].categoryDesc %>" id = "<%= "C-" + catDescCounter%>">  </td>
+              <% catDescCounter = catDescCounter +1; } %>
           <% } %>
-            <% if(i > 0) { %>
-              <% if (data[i].CategoryID != data[i-1].CategoryID) {  %>
+        </tr>
+        <tr>
+      <% for( var i = 0; i < data.length; i ++) { %>
+        <% if(i == 0) { %>
+          <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].attributeDesc %>" id = "A-0"></td>
+          <% } %>
+        <% if(i > 0) { %>
+          <% if (data[i].AttributeID != data[i-1].AttributeID) {  %>
           </tr>
           <tr>
-            <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].categoryDesc %>" id = "<%="C-" + catDescCounter%>"  ></td>
-            <%  catDescCounter = catDescCounter +1;} %>
+            <td><input  readonly style = "text-align: center; font-weight: bold;" value = "<%= data[i].attributeDesc %>" id = "<%="A-" + attriDescCounter%>"  ></td>
+            <%  attriDescCounter = attriDescCounter +1;} %>
         <%   } %>
+        <%  %>
         <td><input style = "text-align: center;" value = "<%= data[i].Value %>" name = "<%=i %>" id = "<%=i %>"  >  </td>
-        <% } %>
-
+      <% } %>
+      <br>
+    </tr>
   </table>
   <input class="btn btn-warning" id = "submit" type = "submit" value = "Submit">
       </form>
@@ -211,7 +214,6 @@
             {
 
             }
-            //check excel table/ form match
             if(match == true)
             {
               for(var i = 1; i < document.getElementById('myTable').rows.length; i ++ )

@@ -68,7 +68,7 @@ module.exports =
       }
     });
   },
-  makeForm: function(reqBody, reqUser, categoryArray, attributeArray, callback)
+  makeForm: function(reqBody, reqUser, res, req, callback)
   {
     //work on this dynamic naming is fnished...just need to update the queries
     var categoryNum = 1;
@@ -76,6 +76,11 @@ module.exports =
     //variables to get the correct element in req.body
     var currentAttribute = "attribute" + String(attributeNum);
     var currentCategory = "category" + String(categoryNum);
+    //NEED CHECK
+    query.newQuery("SELECT * FROM form WHERE Title = '" + reqBody.groupTitle + "'", function(err, returnedForms)
+    {
+      if(returnedForms.length < 1)
+      {
       query.newQuery("INSERT INTO form (Title, GroupNumber) VALUES('" + reqBody.groupTitle + "', " + reqBody.groupNumber + ")", function(err, data)
       {
         //a synchronous while loop so javascript actually does stuff in order. If unfamiliar, would be nice to look it up
@@ -120,6 +125,24 @@ module.exports =
         );
       });
       })
+    }
+    else
+    {
+      query.newQuery("SELECT * FROM categories", function(err, categories)
+      {
+        query.newQuery("SELECT * FROM attributes", function(err, attributes)
+        {
+          console.log(categories);
+          res.render('customtable.ejs',
+          {
+            chooseAttri: attributes,
+            chooseCat: categories,
+            messages: "problem!"
+          });
+        })
+      })
+    }
+    });
   },
   //processes data in the form that user fills out and sends info to database
   //takes in 2 array parameters
@@ -128,23 +151,23 @@ module.exports =
   {
 
     //synchronous for loop
-    syncloop.synchIt(attributeArray.length, function(loop)
+    syncloop.synchIt(categoryArray.length, function(loop)
     {
       //another synchronous for loop
-      syncloop.synchIt1(categoryArray.length, function(loop1)
+      syncloop.synchIt1(attributeArray.length, function(loop1)
       {
         var index = String(loop.iteration()+1) + String(loop1.iteration()+1);
         console.log(index);
         //checks to see if user already submitted form or not
-        query.newQuery("SELECT * FROM datavalues WHERE CategoryID = " + categoryArray[loop1.iteration()][0].ID + " AND AttributeID = " + attributeArray[loop.iteration()][0].ID + " AND userID =" + reqUser.ID + " AND formID = " + reqQuery.formId, function(err, array)
+        query.newQuery("SELECT * FROM datavalues WHERE CategoryID = " + categoryArray[loop.iteration()][0].ID + " AND AttributeID = " + attributeArray[loop1.iteration()][0].ID + " AND userID =" + reqUser.ID + " AND formID = " + reqQuery.formId, function(err, array)
         {
           if(array.length >0)
           {
             //update datavaues because user already submitted the form
-            query.newQuery("UPDATE datavalues SET Value ='" + reqBody[index] + "' WHERE CategoryID =" + categoryArray[loop1.iteration()][0].ID + " AND AttributeID =" + attributeArray[loop.iteration()][0].ID + " AND userID = " + reqUser.ID + " AND formID = " + reqQuery.formId, function(err, data)
+            query.newQuery("UPDATE datavalues SET Value ='" + reqBody[index] + "' WHERE CategoryID =" + categoryArray[loop.iteration()][0].ID + " AND AttributeID =" + attributeArray[loop1.iteration()][0].ID + " AND userID = " + reqUser.ID + " AND formID = " + reqQuery.formId, function(err, data)
             {
               loop1.next();
-              if(index == String(attributeArray.length) + String(categoryArray.length))
+              if(index == String(categoryArray.length) + String(attributeArray.length))
               {
                 console.log(loop.iteration()+1);
                 console.log(loop1.iteration()+1);
@@ -155,11 +178,13 @@ module.exports =
           //this else statement will be accessed if this is the first time the user submits the form
           else
           {
-            query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID, formID) VALUES('" + reqBody[index] + "'," + categoryArray[loop1.iteration()][0].ID + "," + attributeArray[loop.iteration()][0].ID + "," + reqUser.ID + "," + reqQuery.formId + ");",
+            query.newQuery("INSERT INTO datavalues (Value, CategoryID, AttributeID, userID, formID) VALUES('" + reqBody[index] + "'," + categoryArray[loop.iteration()][0].ID + "," + attributeArray[loop1.iteration()][0].ID + "," + reqUser.ID + "," + reqQuery.formId + ");",
             function(err,data)
             {
                 loop1.next();
-                if(index == String(attributeArray.length) + String(categoryArray.length))
+                  
+                console.log(String(categoryArray.length) + String(attributeArray.length))
+                if(index == String(categoryArray.length) + String(attributeArray.length))
                 {
                   console.log(loop.iteration()+1);
                   console.log(loop1.iteration()+1);

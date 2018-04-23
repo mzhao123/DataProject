@@ -25,15 +25,15 @@
     <table class = "table" id ="myTable" style = "border: none;">
         <tr>
         <td type = "text" style = "text-align: center;" contenteditable = "false"><b>Attribute/Category<b></td>
-          <% for (var i = 0; i < category.length; i++) {  %>
-            <td style = "text-align: center; font-weight: bold;" ><b> <input id = "<%= "0" + String(i+1) %>" style = "text-align:center; font-weight: bold;" value = '<%=category[i][0].Description %>' readonly></b></td>
+          <% for (var i = 0; i < attribute.length; i++) {  %>
+            <td style = "text-align: center; font-weight: bold;" ><b> <input id = "<%= "0" + String(i+1) %>" style = "text-align:center; font-weight: bold;" value = '<%=attribute[i][0].Description %>' readonly></b></td>
               <% } %>
             </tr>
               <br>
-      <% for (var i = 0; i < attribute.length; i++) {  %>
+      <% for (var i = 0; i < category.length; i++) {  %>
         <tr>
-          <td style = "text-align: center;" ><b> <input id = "<%=String(i+1)+ "0" %>" style = "text-align:center; font-weight: bold;" value = "<%=attribute[i][0].Description%>" readonly> </b></td>
-          <% for(var j = 0; j < category.length; j ++ ) { %>
+          <td style = "text-align: center;" ><b> <input id = "<%=String(i+1)+ "0" %>" style = "text-align:center; font-weight: bold;" value = "<%=category[i][0].Description%>" readonly> </b></td>
+          <% for(var j = 0; j < attribute.length; j ++ ) { %>
             <td style = "text-align: center;"><input name = "<%= String(i+1) + String(j+1)%>" id = "<%= String(i+1) + String(j+1)%>" type = "text" style = "text-align:center;"></td>
           <% } %>
         </tr>
