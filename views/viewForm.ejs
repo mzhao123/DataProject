@@ -131,6 +131,9 @@
         <div class= "top col-sm-12 well" style= "background-color:#FFFFF0; text-align:center; " >
   <div id = "wrapper">
     Upload an excel file: <input type = "file" id = "input-excel"/>
+    <br>
+    <br>
+     Please name the sheet (not the file itself) "sheet1" and please save the file as an excel xlsx file.
   </div>
     <button id = "editTable" class = "hide" style = "margin-top: 3%">Click here to transfer the table into the form</button>
 </div>
@@ -181,7 +184,7 @@
               for(var i = 0; i < document.getElementById('oldTable').rows[0].cells.length-1; i ++ )
               {
                 //check if categories match or not
-                if(document.getElementById("C-" + i).value == document.getElementById("sjs-" +currentLetter + String(1)).innerHTML)
+                if(document.getElementById("A-" + i).value == document.getElementById("sjs-" +currentLetter + String(1)).innerHTML)
                 {
                   console.log("category matched!");
                   currentLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
@@ -192,11 +195,11 @@
                     match = false;
                 }
               }
-              //time to check if attributes are equal
+              //time to check if attributes are equal. This is done through the matching of IDs
               for( var j = 0; j < document.getElementById('oldTable').rows.length-1; j++)
               {
                 currentLetter = "A";
-                if(document.getElementById("A-" + j).value == document.getElementById("sjs-" + currentLetter + String(j+2)).innerHTML)
+                if(document.getElementById("C-" + j).value == document.getElementById("sjs-" + currentLetter + String(j+2)).innerHTML)
                 {
                   console.log("attribute matched!")
                 }
