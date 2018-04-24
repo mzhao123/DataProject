@@ -83,11 +83,11 @@ app.set('port', process.env.PORT || 3000);
 
 ```
 This code worked on localhost as well as Azure.
-3. SSL (Secure Sockets Layer) In order to have some sort of security between a web server and a browser, a secure socket layer must be put in place to ensure that all data remains        private and secure. We had some difficulties setting up the SSL between Azure and the MySQL database, but we were eventually able to complete it.  We followed the instructions in this link: https://docs.microsoft.com/en-us/azure/mysql/howto-configure-ssl
-   - First, we obtained the SSL certificate from https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem and downloaded/saved it to our local drive.
-   - Second, we connected to the server using the MySQL command line by executing this command: mysql.exe -h gendataproj.mysql.database.azure.com -u iamtheadmin@gendataproj -p       -ssl-ca=d:\home\BaltimoreCyberTrustRoot.crt.pem
+3. SSL (Secure Sockets Layer) In order to have some sort of security between a web server and a browser, a secure socket layer must be put in place to ensure that all data remains        private and secure. We had some difficulties setting up the SSL between Azure and the MySQL database, but we were eventually able to complete it.  We followed the instructions in this link: `https://docs.microsoft.com/en-us/azure/mysql/howto-configure-ssl`
+   - First, we obtained the SSL certificate from `https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem` and downloaded/saved it to our local drive.
+   - Second, we connected to the server using the MySQL command line by executing this command: `mysql.exe -h gendataproj.mysql.database.azure.com -u iamtheadmin@gendataproj -p       -ssl-ca=d:\home\BaltimoreCyberTrustRoot.crt.pem`
 
-   Finally, we used the Azure command line interface to enable ssl-enforcement by typing in : az mysql server update --resource-group genericdataappexp--name gendataproj--ssl-enforcement Enabled
+   Finally, we used the Azure command line interface to enable ssl-enforcement by typing in : `az mysql server update --resource-group genericdataappexp--name gendataproj--ssl-enforcement Enabled`
 ## 1.2 Setting up the mysql database
 
 I created the database we used for this project on mysql workbench. To reuse existing connections and make the project more effective, I used a connection pool instead of a regular connection. To transfer the database from mysql workbench to the azure mysql database, we exported the data from workbench and transfered it into azure's mysql. Then, we connected the azure database with the application.
