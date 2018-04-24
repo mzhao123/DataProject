@@ -65,8 +65,8 @@ Here is the code to connect the database with the application itself (azure):
 ```javascript
 var pool = mysql.createPool({
   host: 'gendataproj.mysql.database.azure.com',
-  user: 'iamtheadmin@gendataproj',
-  password: 'ThereIsNoCowLevel@2',
+  user: '-----------------------',
+  password: '-------------------',
   database: 'dataproject',
   port: 3306,
   ssl: {
@@ -137,8 +137,8 @@ var smtpTransport = nodeMailer.createTransport({
   service: "gmail", //hostname
   host: "smtp.gmail.com",
   auth: {
-    user: "haodasdemo@gmail.com",
-    pass: "godisdeadgodremainsdeadandwehavekilledhim" //I made that password specifically for that account and this program, so don't you go trying to access my bank account or something with it.
+    user: "------------",
+    pass: "-------------------------" //I made that password specifically for that account and this program, so don't you go trying to access my bank account or something with it.
   }
 })
 
@@ -160,7 +160,7 @@ smtpTransport.sendMail(mailConfig, function(err, response) {
 ```
 **NOTE:** I kind of reused code made by a previous intern Haoda Fan because we ended up working on the same project (I picked up where he left off). The test email account that sends emails is his account and the username and password are displayed above. If you want to change the account that sends emails, simply create a new email account and enter in its credentials in "sendmail.js". A problem that is occasionally encountered is the fact that google security locks the email account because a suspicious user has logged in (azure cloud is located in Montreal while we are in Toronto). To fix this, I just log into the account on gmail and verify the location that was used to log in.
 
-##1.4 Some Areas of Improvement
+## 1.4 Some Areas of Improvement
   Just like everything other project, there are things that could be improved
   1. The front-end styling for the project is not the best, as I did not spend a lot of time on that.
   2. Currently, there is no way for an admin to delete forms. Perhaps that functionality could be developed. A problem with that is if a form is deleted, then all of the users who filled out the form should have their form information deleted as well.
@@ -174,10 +174,10 @@ As seen in the diagram, is it possible to add/delete columns as well as add/dele
 
 After all of the attributes and categories are defined, the administrator can submit the form, and allow the form to be able to be filled by users. The administrator can name the form in the "group title" box by entering a UNIQUE title. Also, the administrator can select which group of users can view the form by filling out the gruop number box.
 
-#2.1 Submitting forms
+# 2.1 Submitting forms
 Non-admin users will be able to fill and submit forms with the same group number. This data that is submitted will be sent to the database under the "datavalues" table where the data itself, the category, attribute, user, and form ID are stored in. In addition to online submission on the browser, users will be able to transfer the form onto an excel sheet and fill it out from there. After they are done, they can upload the excel sheet and transfer the data back onto the online form.
 
-#2.2 Editting forms
+# 2.2 Editting forms
 Forms that have already been filled out by users will be able to be edited by users later on. Please not that there will not be multiple versions of the same form filled by a user because the application automatically updates the database and does not add a new entry if a previous entry with the same form and user ID exists.
 
 # 3.0 Conclusion

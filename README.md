@@ -39,6 +39,7 @@ The logic of this application is mainly done in Javascript and Java might be imp
 - A way to create admin users without accessing the database directly
 - Delete forms that have been created along with the data from completed forms that users filled out in the past
 - Allow multiple groups to view the same form. This will probably require a many-many relationship in the database.
+- Currently, when an admin tries to create a form with a duplicate title, an error message pops up and the page is refreshed without the dynamically created form. Perhaps there is a way to refresh the page and keep the data?
 
 # Current features that users can implement
 
