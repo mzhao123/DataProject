@@ -15,11 +15,17 @@ Here is the link: https://github.com/mzhao123/IBMCLoudDemo-FNTPR-DANIEL/blob/mas
 ## Proxy for Node/NPM
 
   If you want to do some web development like me, then you will definitely use node.js and NPM (node package manager). This will allow you to increase the functionalities of your projects and make life a lot easier for you. The OPS fire wall will prevent you from accessing NPM through the command line, so you have to follow the instructions below:
-  Type in the command line: `npm config set proxy http://204.40.130.129:3128` and after that in a new line/command, `npm config set https-proxy https://204.40.130.129:3128`
+  Type in the command line:
+    `npm config set proxy http://204.40.130.129:3128`
+  and after that in a new line/command:
+    `npm config set https-proxy https://204.40.130.129:3128`
 
 ## Proxy for Git
 
-If you are developing a large project, chances are you will be using a version control system such as git. Similar to node, in the command line type: `git config --global http.proxy http://204.40.130.129:3128` , press enter and then type: `git config --global https.proxy https://204.40.130.129:3128` and press enter again.
+If you are developing a large project, chances are you will be using a version control system such as git. Similar to node, in the command line type:
+  `git config --global http.proxy http://204.40.130.129:3128`
+, press enter and then type:
+  `git config --global https.proxy https://204.40.130.129:3128` and press enter again.
 
 ## Set up a general proxy
 
