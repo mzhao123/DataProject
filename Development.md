@@ -15,18 +15,43 @@ Here is the link: https://github.com/mzhao123/IBMCLoudDemo-FNTPR-DANIEL/blob/mas
 ## Proxy for Node/NPM
 
   If you want to do some web development like me, then you will definitely use node.js and NPM (node package manager). This will allow you to increase the functionalities of your projects and make life a lot easier for you. The OPS fire wall will prevent you from accessing NPM through the command line, so you have to follow the instructions below:
-  Type in the command line: npm config set proxy http://204.40.130.129:3128 and after that in a new line/command, npm config set https-proxy https://204.40.130.129:3128
+  Type in the command line: `npm config set proxy http://204.40.130.129:3128` and after that in a new line/command, `npm config set https-proxy https://204.40.130.129:3128`
 
 ## Proxy for Git
 
-If you are developing a large project, chances are you will be using a version control system such as git. Similar to node, in the command line type: git config --global http.proxy http://204.40.130.129:3128 , press enter and then type: git config --global https.proxy https://204.40.130.129:3128 and press enter again.
+If you are developing a large project, chances are you will be using a version control system such as git. Similar to node, in the command line type: `git config --global http.proxy http://204.40.130.129:3128` , press enter and then type: `git config --global https.proxy https://204.40.130.129:3128` and press enter again.
 
 ## Set up a general proxy
 
 To set up a proxy for something that is blocked by the OPS firewall, this is the information you will need:
 - Host/URL/Whatever (works for both http and https): 204.40.130.129
 - Port: 3128
-- (No username, no passwor
+- (No username, no password)
+
+## NPM Problems
+
+You will be able to install most npm packages, but there will be some for whatever reason (no admin privileges I guess?) you will not be able to install. A workaround for this is installing it at home and bringing it to work. Here is a step by step process.
+
+1. Write down the package names you need to install.
+2. Go home
+3. Open up node on your personal computer (install it if you don't have it).
+5. Create a new node project using 'npm init'.
+6. Use 'npm install --save' to install all the necessary components.
+7. Take your node_modules folder and your package.json folder, and compress it into a zip or similar
+8. Upload the file to Google Docs, or email it to yourself.
+9. Go to work
+10. Download and unzip your files, and then paste the contents of node_modules into your project folder
+11. Open package.json from your downloaded file and copy the "dependencies"
+12. Add (paste) the dependencies from your downloaded package.json to your project's package.json
+13. Voila! You now have all your necessary node libraries.
+(instructiona from Haoda Fan)
+
+## 'Proxy Authentication Required'
+
+Even after setting a proxy, every so often, you are once again prevented from accessing the internet via command line because of an error that prompts you to authenticate yourself ("Proxy Authentication Required."). To this day, I still have no idea what causes it. I do know that it usually happens early in the morning (~9AM), at noon, and about an hour or so before I'm supposed to leave (~4pm).
+
+The problem usually goes away after simply waiting 5-10 minutes, although sometimes, this 'authentication required' block can last up to an hour. It's really not good for productivity, but I honestly have no clue what causes it and how to fix it, so I normally just wait it out. A possible solution to get rid of this "proxy authentication error" for the IBM cloud proxy error was to access the IBM cloud website. Perhaps this could be employed for other proxy errors for different applications.
+
 # 1.0 HOW I DEVELOPED MY CLOUD PROJECT
 
 I will explain the process on how I managed to develop a node.js express project and move it onto Microsoft Azure. This project was first developed on local host and then moved to Microsoft Azure.
@@ -82,8 +107,8 @@ Compare this code to the code on local host:
 var pool = mysql.createPool({
   host: 'localhost',
   user: 'Daniel',
-  password: 'hereisthepass',
-  database: 'dataproject'
+  password: '---------',
+  database: '----------'
 })
 
 ```

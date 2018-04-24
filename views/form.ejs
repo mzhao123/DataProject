@@ -61,6 +61,7 @@
 </table>
 <script>
 var $TABLE = $('#newTable');
+//generates the html table from the imported excel spreadsheet
         $('#input-excel').change(function(e){
                 var reader = new FileReader();
                 reader.readAsArrayBuffer(e.target.files[0]);
