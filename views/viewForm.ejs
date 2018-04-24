@@ -140,6 +140,8 @@
 </div>
   <script>
   var $TABLE = $('#newTable');
+
+  //gets the excel sheet and turns it into an html table
           $('#input-excel').change(function(e){
                   var reader = new FileReader();
                   reader.readAsArrayBuffer(e.target.files[0]);
@@ -169,6 +171,7 @@
                           }
                   }
           });
+          //transports  the data into the generated html table into the form where the user can submit the information
           $('#editTable').click(function()
           {
             var currentLetter = 'B';

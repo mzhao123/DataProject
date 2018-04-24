@@ -265,7 +265,7 @@ module.exports = function(app, passport)
                 });
                 console.log("Let's asynchronously also send the email");
                 //sends the email message out with the link with the unique token address
-                mail.sendFromHaodasMail(userEmail, "First Nations Online Income Reports: Password Reset Link!",
+                mail.sendFromHaodasMail(userEmail, "Generic Tables Project",
                 "Please click on the following link: \n http://localhost:3000/forgotten-password?token=" + tokenObject.token + "&ID=RESETPASSWORD to validate yourself: "
                 );
              });
