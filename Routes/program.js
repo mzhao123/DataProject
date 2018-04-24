@@ -100,7 +100,7 @@ module.exports = function(app, passport)
         });
         console.log("Let's asynchronously also send the email");
         console.log(req.user.email);
-        mail.sendFromHaodasMail(req.user.email, "First Nations Online Income Reports: User Validation Required!",
+        mail.sendFromHaodasMail(req.user.email, "Generic Forms Project User Validation Required!",
           "Please click on the following link: \n localhost:3000/validate-now?tok=" + tokenObject.token + " to validate yourself: "
         );
       });
